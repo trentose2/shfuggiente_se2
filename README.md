@@ -1,6 +1,6 @@
 # inserire nome progetto
 ## Descrizione
-### inserire descrizione progetto
+#### A Node.js API Project for the Software Engineering course
 
 # **Shfuggiente**
 
