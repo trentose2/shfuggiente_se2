@@ -1,8 +1,12 @@
-#inserire nome progetto
-#inserire descrizione progetto
-Nome gruppo: shfuggiente_se2
-Componenti:
--Dall'Asen Nicola		185789
--Di Giacomo Gianmarco		185683
--Rosset	Andrea			187604
--Pop Vasile Adrian Bogdan	??????
+# Inserire nome progetto
+## Descrizione
+#### A Node.js API Project for the Software Engineering course
+
+So far it's only a 'Hello World' app
+
+# **Shfuggiente**
+
+**185789** Dall'Asen Nicola   
+**185683** Digiacomo Gianmarco   
+**187604** Rosset	Andrea   
+**185860** Pop Vasile Adrian Bogdan
