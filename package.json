@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Fodark/shfuggiente_se2/issues"
   },
-  "homepage": "https://github.com/Fodark/shfuggiente_se2#readme"
+  "homepage": "https://github.com/Fodark/shfuggiente_se2#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
 }
