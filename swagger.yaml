@@ -1,15 +1,13 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
-  version: '1.0'
-  title: "shfuggiente_se2"
-  description: Polls is a simple API allowing consumers to view polls and vote in them.
-  license:
-    name: MIT
-    url: https://github.com/apiaryio/polls-api/blob/master/LICENSE
-host: polls.apiblueprint.org
-basePath: /
+  description: "Description"
+  version: "1.0.0"
+  title: "Shfuggiente SE 2"
+host: "shfuggientese2.herokuapp.com"
+basePath: "/api/v1"
 schemes:
-- http
+- "https"
+- "http"
 consumes:
 - application/json
 produces:
@@ -118,3 +116,6 @@ definitions:
         - Python
         - Objective-C
         - Ruby
+externalDocs:
+  description: "Find out more about Shfuggiente SE 2"
+  url: "https://github.com/Fodark/shfuggiente_se2/wiki"
