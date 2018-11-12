@@ -7,7 +7,6 @@ host: "shfuggientese2.herokuapp.com"
 basePath: "/api/v1"
 schemes:
 - "https"
-- "http"
 consumes:
 - application/json
 produces:
@@ -43,8 +42,6 @@ paths:
     get:
       summary: Obtain exam info
       responses:
-        default:
-          description: Bad request
         200:
           description: Successful response
           schema:
@@ -111,8 +108,6 @@ paths:
     delete:
       summary: Remove a group assigned to an exam
       responses:
-        default:
-          description: Error
         204:
           description: 'Deleted succsessfully'
   /exams/{id}/submissions:
@@ -149,8 +144,6 @@ paths:
         - "Groups"
       summary: Obtain a list of the groups
       responses:
-        default:
-          description: 'Bad request'
         200:
           description: 'successfull response'
           examples:
@@ -173,7 +166,7 @@ paths:
         200:
           description: "Group created successfully"
         405:
-          description: "Error creating group" 
+          description: "Error creating group"
   /groups/{id}:
     get:
       summary: "Obtain group informations"
@@ -183,8 +176,6 @@ paths:
         required: true
         type: string
       responses:
-        default: 
-          description: "Bad request"
         200:
           description: "successfull response"
           examples:
@@ -201,10 +192,10 @@ paths:
         name: "Group"
         required: true
         schema:
-          $ref: "#/definitions/Group"  
+          $ref: "#/definitions/Group"
       responses:
         204:
-          description: "Group modified successfully"  
+          description: "Group modified successfully"
     delete:
       summary: "Delete group"
       parameters:
@@ -221,8 +212,6 @@ paths:
         - "Users"
       summary: Obtain a list of the users
       responses:
-        default:
-          description: 'Bad request'
         200:
           description: 'successfull response'
           examples:
@@ -245,8 +234,8 @@ paths:
         200:
           description: "User created successfully"
         405:
-          description: "Error creating user"     
-  /users/{id}:        
+          description: "Error creating user"
+  /users/{id}:
     get:
       summary: "Obtain user informations"
       parameters:
@@ -255,8 +244,6 @@ paths:
         required: true
         type: string
       responses:
-        default: 
-          description: "Bad request"
         200:
           description: "successfull response"
           examples:
@@ -275,10 +262,10 @@ paths:
         name: "User"
         required: true
         schema:
-          $ref: "#/definitions/User"  
+          $ref: "#/definitions/User"
       responses:
         204:
-          description: "User modified successfully" 
+          description: "User modified successfully"
     delete:
       summary: "Delete user"
       parameters:
