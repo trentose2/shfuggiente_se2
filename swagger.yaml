@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - "Exams"
-      summary: "Add a new exam"
+      summary: "Create a new exam"
       consumes:
       - "application/json"
       produces:
@@ -40,7 +40,7 @@ paths:
       required: true
       type: integer
     get:
-      summary: Obtain exam info
+      summary: Get exam info
       responses:
         200:
           description: Successful response
@@ -52,7 +52,7 @@ paths:
               name: 'MyExam'
               exercises: [4,5,78,64,61,98]
     put:
-      summary: Modify an exam
+      summary: Edit an exam
       parameters:
       - in: "body"
         name: "body"
@@ -60,12 +60,12 @@ paths:
         schema:
           $ref: "#/definitions/Exam"
       responses:
-        204:
+        200:
           description: 'Modified successfully'
     delete:
       summary: Delete an exam
       responses:
-        204:
+        200:
           description: 'Deleted successfully'
   /exams/{id}/groups:
     parameters:
@@ -74,7 +74,7 @@ paths:
       required: true
       type: integer
     get:
-      summary: Obtain groups associated with an exam
+      summary: Get groups associated with an exam
       responses:
         200:
           description: Successful response
@@ -83,7 +83,7 @@ paths:
               - id: 143
                 groups: [43,765,54,98]
     post:
-      summary: Add a group to this specific exam
+      summary: Create a group for this specific exam
       parameters:
       - in: "body"
         name: "body"
@@ -108,7 +108,7 @@ paths:
     delete:
       summary: Remove a group assigned to an exam
       responses:
-        204:
+        200:
           description: 'Deleted successfully'
   /exams/{id}/submissions:
     parameters:
@@ -117,7 +117,7 @@ paths:
       required: true
       type: integer
     get:
-      summary: Obtain the submissions' IDs related to a exam
+      summary: Get the submissions' IDs related to a exam
       responses:
         200:
           description: Success
@@ -142,7 +142,7 @@ paths:
     get:
       tags:
         - "Groups"
-      summary: Obtain a list of the groups
+      summary: Get a list of the groups
       responses:
         200:
           description: 'successful response'
@@ -169,7 +169,7 @@ paths:
           description: "Error creating group"
   /groups/{id}:
     get:
-      summary: "Obtain group informations"
+      summary: "Get group informations"
       parameters:
       - name: id
         in: path
@@ -182,7 +182,7 @@ paths:
             'application/json':
               [4,5,78,64,61,98]
     put:
-      summary: "Modify group"
+      summary: "Edit group"
       parameters:
       - name: id
         in: path
@@ -194,7 +194,7 @@ paths:
         schema:
           $ref: "#/definitions/Group"
       responses:
-        204:
+        200:
           description: "Group modified successfully"
     delete:
       summary: "Delete group"
@@ -204,13 +204,13 @@ paths:
         required: true
         type: string
       responses:
-        204:
+        200:
           description: 'Deleted successfully'
   /users:
     get:
       tags:
         - "Users"
-      summary: Obtain a list of the users
+      summary: Get a list of the users
       responses:
         200:
           description: 'successful response'
@@ -237,7 +237,7 @@ paths:
           description: "Error creating user"
   /users/{id}:
     get:
-      summary: "Obtain user informations"
+      summary: "Get user informations"
       parameters:
       - name: id
         in: path
@@ -252,7 +252,7 @@ paths:
               name: "User 1"
               mail: "mail@provider.net"
     put:
-      summary: "Modify user"
+      summary: "Edit user"
       parameters:
       - name: id
         in: path
@@ -264,7 +264,7 @@ paths:
         schema:
           $ref: "#/definitions/User"
       responses:
-        204:
+        200:
           description: "User modified successfully"
     delete:
       summary: "Delete user"
@@ -274,10 +274,8 @@ paths:
         required: true
         type: string
       responses:
-        204:
+        200:
           description: 'Deleted successfully'
-
-
 definitions:
   Submission:
     type: "object"
