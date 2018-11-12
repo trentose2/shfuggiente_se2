@@ -79,6 +79,153 @@ paths:
       responses:
         204:
           description: 'Deleted succsessfully'
+  /groups:
+    get:
+      tags:
+        - "Groups"
+      summary: Obtain a list of the groups
+      responses:
+        default:
+          description: 'Bad request'
+        200:
+          description: 'successfull response'
+          examples:
+            'application/json':
+              - id: 1
+                name: 'group1'
+              - id: 2
+                name: 'group2'
+    post:
+      summary: "Create a group"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Group informations"
+        required: true
+        schema:
+          $ref: "#/definitions/Group"
+      responses:
+        200:
+          description: "Group created successfully"
+        405:
+          description: "Error creating group" 
+  /groups/{id}:
+    get:
+      summary: "Obtain group informations"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        default: 
+          description: "Bad request"
+        200:
+          description: "successfull response"
+          examples:
+            'application/json':
+              [4,5,78,64,61,98]
+    put:
+      summary: "Modify group"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - in: "body"
+        name: "Group"
+        required: true
+        schema:
+          $ref: "#/definitions/Group"  
+      responses:
+        204:
+          description: "Group modified successfully"  
+    delete:
+      summary: "Delete group"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: 'Deleted succsessfully'
+  /users:
+    get:
+      tags:
+        - "Users"
+      summary: Obtain a list of the users
+      responses:
+        default:
+          description: 'Bad request'
+        200:
+          description: 'successfull response'
+          examples:
+            'application/json':
+              - id: 1
+                name: 'user1'
+              - id: 2
+                name: 'user2'
+    post:
+      summary: "Create a user"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "User informations"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "User created successfully"
+        405:
+          description: "Error creating user"     
+  /users/{id}:        
+    get:
+      summary: "Obtain user informations"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        default: 
+          description: "Bad request"
+        200:
+          description: "successfull response"
+          examples:
+            'application/json':
+              id: 1
+              name: "User 1"
+              mail: "mail@provider.net"
+    put:
+      summary: "Modify user"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - in: "body"
+        name: "User"
+        required: true
+        schema:
+          $ref: "#/definitions/User"  
+      responses:
+        204:
+          description: "User modified successfully" 
+    delete:
+      summary: "Delete user"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: 'Deleted succsessfully'
+          
 definitions:
   Exam:
     type: "object"
@@ -94,6 +241,34 @@ definitions:
       exercises:
         type: "array"
         example: [1,98,54,78,100]
+  Group:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "Group 1"
+      members:
+        type: "array"
+        example: [1,98,54,78,100]
+  User:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+        example: "User 1"
+      mail:
+        type: "string"
+        example: "mail@provider.net"
 externalDocs:
   description: "Find out more about Shfuggiente SE 2"
   url: "https://github.com/Fodark/shfuggiente_se2/wiki"
