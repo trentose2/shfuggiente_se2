@@ -43,8 +43,6 @@ paths:
     get:
       summary: Obtain exam info
       responses:
-        default:
-          description: Bad request
         200:
           description: Successful response
           schema:
@@ -111,8 +109,6 @@ paths:
     delete:
       summary: Remove a group assigned to an exam
       responses:
-        default:
-          description: Error
         204:
           description: 'Deleted succsessfully'
   /exams/{id}/submissions:
@@ -149,8 +145,6 @@ paths:
         - "Groups"
       summary: Obtain a list of the groups
       responses:
-        default:
-          description: 'Bad request'
         200:
           description: 'successfull response'
           examples:
@@ -183,8 +177,6 @@ paths:
         required: true
         type: string
       responses:
-        default: 
-          description: "Bad request"
         200:
           description: "successfull response"
           examples:
@@ -221,8 +213,6 @@ paths:
         - "Users"
       summary: Obtain a list of the users
       responses:
-        default:
-          description: 'Bad request'
         200:
           description: 'successfull response'
           examples:
@@ -255,8 +245,6 @@ paths:
         required: true
         type: string
       responses:
-        default: 
-          description: "Bad request"
         200:
           description: "successfull response"
           examples:
