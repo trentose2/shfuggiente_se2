@@ -7,7 +7,6 @@ host: "shfuggientese2.herokuapp.com"
 basePath: "/api/v1"
 schemes:
 - "https"
-- "http"
 consumes:
 - application/json
 produces:
