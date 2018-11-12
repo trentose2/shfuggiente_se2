@@ -166,7 +166,7 @@ paths:
         200:
           description: "Group created successfully"
         405:
-          description: "Error creating group" 
+          description: "Error creating group"
   /groups/{id}:
     get:
       summary: "Obtain group informations"
@@ -192,10 +192,10 @@ paths:
         name: "Group"
         required: true
         schema:
-          $ref: "#/definitions/Group"  
+          $ref: "#/definitions/Group"
       responses:
         204:
-          description: "Group modified successfully"  
+          description: "Group modified successfully"
     delete:
       summary: "Delete group"
       parameters:
@@ -234,8 +234,8 @@ paths:
         200:
           description: "User created successfully"
         405:
-          description: "Error creating user"     
-  /users/{id}:        
+          description: "Error creating user"
+  /users/{id}:
     get:
       summary: "Obtain user informations"
       parameters:
@@ -262,10 +262,10 @@ paths:
         name: "User"
         required: true
         schema:
-          $ref: "#/definitions/User"  
+          $ref: "#/definitions/User"
       responses:
         204:
-          description: "User modified successfully" 
+          description: "User modified successfully"
     delete:
       summary: "Delete user"
       parameters:
