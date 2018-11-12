@@ -35,13 +35,13 @@ paths:
         405:
           description: "Invalid input"
   /exams/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: integer
     get:
       summary: Obtain exam info
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       responses:
         default:
           description: Bad request
@@ -51,16 +51,12 @@ paths:
             $ref: '#/definitions/Exam'
           examples:
             'application/json':
-              - id: 1
-                name: 'MyExam'
-                exercises: [4,5,78,64,61,98]
+              id: 1
+              name: 'MyExam'
+              exercises: [4,5,78,64,61,98]
     put:
       summary: Modify an exam
       parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       - in: "body"
         name: "body"
         required: true
@@ -71,14 +67,82 @@ paths:
           description: 'Modified successfully'
     delete:
       summary: Delete an exam
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       responses:
         204:
           description: 'Deleted succsessfully'
+  /exams/{id}/groups:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: integer
+    get:
+      summary: Obtain groups associated with an exam
+      responses:
+        200:
+          description: Successful response
+          examples:
+            'application/json':
+              - id: 143
+                groups: [43,765,54,98]
+    post:
+      summary: Add a group to this specific exam
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/GroupId"
+      responses:
+        200:
+          description: "Done"
+        405:
+          description: "Invalid input"
+  /exams/{examId}/groups/{groupId}:
+    parameters:
+    - name: examId
+      in: path
+      required: true
+      type: integer
+    - name: groupId
+      in: path
+      required: true
+      type: integer
+    delete:
+      summary: Remove a group assigned to an exam
+      responses:
+        default:
+          description: Error
+        204:
+          description: 'Deleted succsessfully'
+  /exams/{id}/submissions:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: integer
+    get:
+      summary: Obtain the submissions' IDs related to a exam
+      responses:
+        200:
+          description: Success
+          examples:
+            'application/json':
+              id: 43
+              submissions: [1,54,76,43,87]
+    post:
+      summary: Create a new submissions for an exam
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Submission"
+      responses:
+        200:
+          description: "Done"
+        405:
+          description: "Invalid input"
   /groups:
     get:
       tags:
@@ -225,8 +289,29 @@ paths:
       responses:
         204:
           description: 'Deleted succsessfully'
-          
+
+
 definitions:
+  Submission:
+    type: "object"
+    required:
+    - "groupId"
+    - "answers"
+    properties:
+      groupId:
+        type: integer
+        example: 54
+      answers:
+        type: array
+        example: ['ah', 'non', 'lo', 'so', 'io']
+  GroupId:
+    type: "object"
+    required:
+    - "id"
+    properties:
+      id:
+        type: "integer"
+        example: 13
   Exam:
     type: "object"
     required:
