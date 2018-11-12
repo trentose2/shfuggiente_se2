@@ -145,7 +145,7 @@ paths:
       summary: Obtain a list of the groups
       responses:
         200:
-          description: 'successfull response'
+          description: 'successful response'
           examples:
             'application/json':
               - id: 1
@@ -177,7 +177,7 @@ paths:
         type: string
       responses:
         200:
-          description: "successfull response"
+          description: "successful response"
           examples:
             'application/json':
               [4,5,78,64,61,98]
@@ -213,7 +213,7 @@ paths:
       summary: Obtain a list of the users
       responses:
         200:
-          description: 'successfull response'
+          description: 'successful response'
           examples:
             'application/json':
               - id: 1
@@ -245,7 +245,7 @@ paths:
         type: string
       responses:
         200:
-          description: "successfull response"
+          description: "successful response"
           examples:
             'application/json':
               id: 1
