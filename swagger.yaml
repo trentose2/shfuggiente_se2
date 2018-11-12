@@ -34,6 +34,51 @@ paths:
           description: "Done"
         405:
           description: "Invalid input"
+  /exams/{id}:
+    get:
+      summary: Obtain exam info
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        default:
+          description: Bad request
+        200:
+          description: Successful response
+          schema:
+            $ref: '#/definitions/Exam'
+          examples:
+            'application/json':
+              - id: 1
+                name: 'MyExam'
+                exercises: [4,5,78,64,61,98]
+    put:
+      summary: Modify an exam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Exam"
+      responses:
+        204:
+          description: 'Modified successfully'
+    delete:
+      summary: Delete an exam
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+      responses:
+        204:
+          description: 'Deleted succsessfully'
 definitions:
   Exam:
     type: "object"
@@ -46,6 +91,9 @@ definitions:
       name:
         type: "string"
         example: "Exam 1"
+      exercises:
+        type: "array"
+        example: [1,98,54,78,100]
 externalDocs:
   description: "Find out more about Shfuggiente SE 2"
   url: "https://github.com/Fodark/shfuggiente_se2/wiki"
