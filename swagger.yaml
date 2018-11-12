@@ -149,13 +149,29 @@ paths:
       required: true
       type: integer
     get:
-      summary: Obtain info about submission
+      summary: Get info about submission
       responses:
         200:
           description: "successfull response"
           examples:
             'application/json':
               ['ah', 'non', 'lo', 'so', 'io']
+    put:
+      summary: Update submission
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Submission"
+      responses:
+        204:
+          description: 'Modified successfully'
+    delete:
+      summary: delete the Submission
+      responses:
+        200:
+          description: 'Deleted successfully'
   /groups:
     get:
       tags:
