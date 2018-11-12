@@ -138,6 +138,24 @@ paths:
           description: "Done"
         405:
           description: "Invalid input"
+  /exams/{examId}/submissions/{submissionId}:
+    parameters:
+    - name: examId
+      in: path
+      required: true
+      type: integer
+    - name: submissionId
+      in: path
+      required: true
+      type: integer
+    get:
+      summary: Obtain info about submission
+      responses:
+        200:
+          description: "successfull response"
+          examples:
+            'application/json':
+              ['ah', 'non', 'lo', 'so', 'io']
   /groups:
     get:
       tags:
