@@ -66,7 +66,7 @@ paths:
       summary: Delete an exam
       responses:
         204:
-          description: 'Deleted succsessfully'
+          description: 'Deleted successfully'
   /exams/{id}/groups:
     parameters:
     - name: id
@@ -109,7 +109,7 @@ paths:
       summary: Remove a group assigned to an exam
       responses:
         204:
-          description: 'Deleted succsessfully'
+          description: 'Deleted successfully'
   /exams/{id}/submissions:
     parameters:
     - name: id
@@ -205,7 +205,7 @@ paths:
         type: string
       responses:
         204:
-          description: 'Deleted succsessfully'
+          description: 'Deleted successfully'
   /users:
     get:
       tags:
@@ -275,7 +275,7 @@ paths:
         type: string
       responses:
         204:
-          description: 'Deleted succsessfully'
+          description: 'Deleted successfully'
 
 
 definitions:
