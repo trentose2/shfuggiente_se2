@@ -16,7 +16,7 @@ paths:
     post:
       tags:
       - "Exams"
-      summary: "Create a new exam"
+      summary: "Create an Exam"
       # TODO: Add parameters
       parameters:
       - in: "body"
@@ -79,7 +79,7 @@ paths:
               - id: 143
                 groups_ids: [43,765,54,98]
     post:
-      summary: Create a group for this specific exam
+      summary: Add a group for this specific exam
       parameters:
       - in: "body"
         name: "body"
