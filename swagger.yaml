@@ -27,7 +27,7 @@ paths:
       responses:
         200:
           description: "Done"
-        405:
+        400:
           description: "Invalid input"
   /exams/{id}:
     parameters:
@@ -89,7 +89,7 @@ paths:
       responses:
         200:
           description: "Done"
-        405:
+        400:
           description: "Invalid input"
   /exams/{examId}/groups/{groupId}:
     parameters:
@@ -132,7 +132,7 @@ paths:
       responses:
         200:
           description: "Done"
-        405:
+        400:
           description: "Invalid input"
   /exams/{examId}/submissions/{submissionId}:
     parameters:
@@ -161,7 +161,7 @@ paths:
         schema:
           $ref: "#/definitions/Submission"
       responses:
-        204:
+        200:
           description: 'Modified successfully'
     delete:
       summary: delete the Submission
@@ -197,7 +197,7 @@ paths:
       responses:
         200:
           description: "Done"
-        405:
+        400:
           description: "Invalid input"
   /exams/{examId}/submissions/{submissionId}/marks:
     parameters:
@@ -228,7 +228,7 @@ paths:
       responses:
         200:
           description: "Done"
-        405:
+        400:
           description: "Invalid input"
   /groups:
     get:
@@ -255,7 +255,7 @@ paths:
       responses:
         200:
           description: "Group created successfully"
-        405:
+        400:
           description: "Error creating group"
   /groups/{id}:
     get:
@@ -321,7 +321,7 @@ paths:
       responses:
         200:
           description: "User created successfully"
-        405:
+        400:
           description: "Error creating user"
   /users/{id}:
     get:
