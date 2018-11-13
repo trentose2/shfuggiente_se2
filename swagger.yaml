@@ -17,10 +17,6 @@ paths:
       tags:
       - "Exams"
       summary: "Create a new exam"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
       # TODO: Add parameters
       parameters:
       - in: "body"
@@ -250,8 +246,6 @@ paths:
                 name: 'group2'
     post:
       summary: "Create a group"
-      consumes:
-      - "application/json"
       parameters:
       - in: "body"
         name: "Group informations"
@@ -318,8 +312,6 @@ paths:
                 name: 'user2'
     post:
       summary: "Create a user"
-      consumes:
-      - "application/json"
       parameters:
       - in: "body"
         name: "User informations"
