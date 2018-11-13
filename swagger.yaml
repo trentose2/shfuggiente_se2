@@ -258,13 +258,13 @@ paths:
         400:
           description: "Error creating group"
   /groups/{id}:
-    get:
-      summary: "Get group informations"
-      parameters:
+    parameters:
       - name: id
         in: path
         required: true
         type: string
+    get:
+      summary: "Get group informations"
       responses:
         200:
           description: "successful response"
@@ -274,10 +274,6 @@ paths:
     put:
       summary: "Edit group"
       parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       - in: "body"
         name: "Group"
         required: true
@@ -288,11 +284,6 @@ paths:
           description: "Group modified successfully"
     delete:
       summary: "Delete group"
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       responses:
         200:
           description: 'Deleted successfully'
@@ -324,13 +315,13 @@ paths:
         400:
           description: "Error creating user"
   /users/{id}:
-    get:
-      summary: "Get user informations"
-      parameters:
+    parameters:
       - name: id
         in: path
         required: true
         type: string
+    get:
+      summary: "Get user informations"
       responses:
         200:
           description: "successful response"
@@ -342,10 +333,6 @@ paths:
     put:
       summary: "Edit user"
       parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       - in: "body"
         name: "User"
         required: true
@@ -356,11 +343,6 @@ paths:
           description: "User modified successfully"
     delete:
       summary: "Delete user"
-      parameters:
-      - name: id
-        in: path
-        required: true
-        type: string
       responses:
         200:
           description: 'Deleted successfully'
