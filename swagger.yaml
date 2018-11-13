@@ -203,6 +203,37 @@ paths:
           description: "Done"
         405:
           description: "Invalid input"
+  /exams/{examId}/submissions/{submissionId}/marks:
+    parameters:
+    - name: examId
+      in: path
+      required: true
+      type: integer
+    - name: submissionId
+      in: path
+      required: true
+      type: integer
+    get:
+      summary: Get marks associated to a submission
+      responses:
+        200:
+          description: Successful response
+          examples:
+            'application/json':
+              - marks: [6,8,5,9]
+    post:
+      summary: Create a mark for this specific submission
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Mark"
+      responses:
+        200:
+          description: "Done"
+        405:
+          description: "Invalid input"
   /groups:
     get:
       tags:
@@ -387,6 +418,17 @@ definitions:
       message:
         type: "string"
         example: "Comment 1"
+  Mark:
+    type: "object"
+    required:
+    - "mark"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      message:
+        type: "integer"
+        example: "8"
   Group:
     type: "object"
     required:
