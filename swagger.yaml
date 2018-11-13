@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "Description"
+  description: "Software Engineering Project API"
   version: "1.0.0"
   title: "Shfuggiente SE 2"
 host: "shfuggientese2.herokuapp.com"
