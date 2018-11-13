@@ -46,7 +46,7 @@ paths:
             'application/json':
               id: 1
               name: 'MyExam'
-              exercises: [4,5,78,64,61,98]
+              exercises_ids: [4,5,78,64,61,98]
     put:
       summary: Edit an exam
       parameters:
@@ -77,7 +77,7 @@ paths:
           examples:
             'application/json':
               - id: 143
-                groups: [43,765,54,98]
+                groups_ids: [43,765,54,98]
     post:
       summary: Create a group for this specific exam
       parameters:
@@ -119,8 +119,7 @@ paths:
           description: Success
           examples:
             'application/json':
-              id: 43
-              submissions: [1,54,76,43,87]
+              submissions_ids: [1,54,76,43,87]
     post:
       summary: Create a new submissions for an exam
       parameters:
@@ -151,7 +150,8 @@ paths:
           description: "successfull response"
           examples:
             'application/json':
-              ['ah', 'non', 'lo', 'so', 'io']
+              answers:
+                [123: "answer 1", 12: "answer 2"]
     put:
       summary: Update submission
       parameters:
@@ -185,7 +185,7 @@ paths:
           description: Successful response
           examples:
             'application/json':
-              - comments: [43,765,54,98]
+              - comments_ids: [43,765,54,98]
     post:
       summary: Create a comment for this specific submission
       parameters:
@@ -216,7 +216,7 @@ paths:
           description: Successful response
           examples:
             'application/json':
-              - marks: [6,8,5,9]
+              - marks_ids: [120,45,53,19]
     post:
       summary: Create a mark for this specific submission
       parameters:
@@ -262,7 +262,7 @@ paths:
       - name: id
         in: path
         required: true
-        type: string
+        type: integer
     get:
       summary: "Get group informations"
       responses:
@@ -270,7 +270,8 @@ paths:
           description: "successful response"
           examples:
             'application/json':
-              [4,5,78,64,61,98]
+              name: "Group Name"
+              members_ids: [4,5,78,64,61,98]
     put:
       summary: "Edit group"
       parameters:
@@ -319,7 +320,7 @@ paths:
       - name: id
         in: path
         required: true
-        type: string
+        type: integer
     get:
       summary: "Get user informations"
       responses:
@@ -327,8 +328,9 @@ paths:
           description: "successful response"
           examples:
             'application/json':
-              id: 1
-              name: "User 1"
+              name: "Name 1"
+              surname: "Surname 1"
+              role: "Teacher"
               mail: "mail@provider.net"
     put:
       summary: "Edit user"
@@ -351,14 +353,18 @@ definitions:
     type: "object"
     required:
     - "groupId"
+    - "examId"
     - "answers"
     properties:
       groupId:
         type: integer
         example: 54
+      examId:
+        type: integer
+        example: 32
       answers:
         type: array
-        example: ['ah', 'non', 'lo', 'so', 'io']
+        example: [123: "nel 1988"]
   GroupId:
     type: "object"
     required:
@@ -427,7 +433,13 @@ definitions:
         format: "int64"
       name:
         type: "string"
-        example: "User 1"
+        example: "Name 1"
+      surname:
+        type: "string"
+        example: "Surname 1"
+      role:
+        type: "string"
+        example: "Teacher"
       mail:
         type: "string"
         example: "mail@provider.net"
