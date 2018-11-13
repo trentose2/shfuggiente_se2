@@ -172,6 +172,37 @@ paths:
       responses:
         200:
           description: 'Deleted successfully'
+  /exams/{examId}/submissions/{submissionId}/comments:
+    parameters:
+    - name: examId
+      in: path
+      required: true
+      type: integer
+    - name: submissionId
+      in: path
+      required: true
+      type: integer
+    get:
+      summary: Get comments associated with a submission
+      responses:
+        200:
+          description: Successful response
+          examples:
+            'application/json':
+              - comments: [43,765,54,98]
+    post:
+      summary: Create a comment for this specific submission
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        200:
+          description: "Done"
+        405:
+          description: "Invalid input"
   /groups:
     get:
       tags:
@@ -345,6 +376,17 @@ definitions:
       exercises:
         type: "array"
         example: [1,98,54,78,100]
+  Comment:
+    type: "object"
+    required:
+    - "message"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      message:
+        type: "string"
+        example: "Comment 1"
   Group:
     type: "object"
     required:
