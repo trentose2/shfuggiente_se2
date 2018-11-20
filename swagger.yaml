@@ -88,12 +88,7 @@ paths:
           description: "Invalid input"
   /submissions/{id}:
     parameters:
-    - name: examId
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    - name: submissionId
+    - name: id
       in: path
       required: true
       type: integer
@@ -103,10 +98,8 @@ paths:
       responses:
         200:
           description: "successfull response"
-          examples:
-            'application/json':
-              answers:
-                [123: "answer 1", 12: "answer 2"]
+          schema:
+            $ref: "#/definitions/Submission"
     put:
       summary: Update submission
       parameters:
