@@ -94,6 +94,8 @@ paths:
       type: integer
       minimum: 1
     get:
+      tags:
+      - "Submissions"
       summary: Get info about submission
       responses:
         200:
