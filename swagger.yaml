@@ -277,10 +277,8 @@ paths:
       responses:
         200:
           description: "successful response"
-          examples:
-            'application/json':
-              name: "Group Name"
-              members_ids: [4,5,78,64,61,98]
+          schema:
+            $ref: "#/definitions/Group"
     put:
       summary: "Edit group"
       parameters:
@@ -336,12 +334,8 @@ paths:
       responses:
         200:
           description: "successful response"
-          examples:
-            'application/json':
-              name: "Name 1"
-              surname: "Surname 1"
-              role: "Teacher"
-              mail: "mail@provider.net"
+          schema:
+            $ref: "#/definitions/User"
     put:
       summary: "Edit user"
       parameters:
