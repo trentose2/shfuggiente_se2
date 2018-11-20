@@ -116,14 +116,9 @@ paths:
       responses:
         200:
           description: 'Deleted successfully'
-  /exams/{examId}/submissions/{submissionId}/comments:
+  /submissions/{id}/comments:
     parameters:
-    - name: examId
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    - name: submissionId
+    - name: id
       in: path
       required: true
       type: integer
@@ -149,14 +144,9 @@ paths:
           description: "Done"
         400:
           description: "Invalid input"
-  /exams/{examId}/submissions/{submissionId}/marks:
+  /submissions/{id}/marks:
     parameters:
-    - name: examId
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    - name: submissionId
+    - name: id
       in: path
       required: true
       type: integer
