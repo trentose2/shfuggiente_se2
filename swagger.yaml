@@ -356,11 +356,11 @@ definitions:
   Submission:
     type: "object"
     required:
-    - "groupId"
+    - "userId"
     - "examId"
     - "answers"
     properties:
-      groupId:
+      userId:
         type: integer
         minimum: 1
         example: 54
@@ -371,15 +371,6 @@ definitions:
       answers:
         type: array
         example: [123: "nel 1988"]
-  GroupId:
-    type: "object"
-    required:
-    - "id"
-    properties:
-      id:
-        type: "integer"
-        minimum: 1
-        example: 13
   Exam:
     type: "object"
     required:
@@ -402,6 +393,8 @@ definitions:
     type: "object"
     required:
     - "message"
+    - "user_id"
+    - "submission_id"
     properties:
       id:
         type: "integer"
@@ -410,19 +403,37 @@ definitions:
       message:
         type: "string"
         example: "Comment 1"
+      user_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
+      submission_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
   Mark:
     type: "object"
     required:
     - "mark"
+    - "user_id"
+    - "submission_id"
     properties:
       id:
         type: "integer"
         minimum: 1
         format: "int64"
-      message:
+      mark:
         type: "integer"
         minimum: 1
         example: "8"
+      user_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
+      submission_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
   Group:
     type: "object"
     required:
@@ -442,6 +453,8 @@ definitions:
     type: "object"
     required:
     - "name"
+    - "mail"
+    - "role"
     properties:
       id:
         type: "integer"
@@ -459,6 +472,9 @@ definitions:
       mail:
         type: "string"
         example: "mail@provider.net"
+      groups:
+        type: "array"
+        example: [34,65,12,6]
 externalDocs:
   description: "Find out more about Shfuggiente SE 2"
   url: "https://github.com/Fodark/shfuggiente_se2/wiki"
