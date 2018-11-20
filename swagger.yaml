@@ -42,12 +42,6 @@ paths:
           description: Successful response
           schema:
             $ref: '#/definitions/Exam'
-          examples:
-            'application/json':
-              id: 1
-              name: 'MyExam'
-              exercises_ids: [4,5,78,64,61,98]
-              groups_ids: [43,765,54,98]
     put:
       summary: Edit an exam
       parameters:
