@@ -299,6 +299,21 @@ paths:
       responses:
         200:
           description: 'Deleted successfully'
+  /groups/{id}/submissions:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: integer
+      minimum: 1
+    get:
+      summary: Get the submissions' IDs related to a group
+      responses:
+        200:
+          description: Success
+          examples:
+            'application/json':
+              submissions_ids: [1,54,76,43,87]
   /users:
     get:
       tags:
