@@ -404,7 +404,11 @@ definitions:
         example: 32
       answers:
         type: array
-        example: [123: "nel 1988"]
+        example:
+        - excercise_id: 123
+          answer: "risp 1"
+        - exercise_id: 76
+          answer: "risp 2"
   Exam:
     type: "object"
     required:
