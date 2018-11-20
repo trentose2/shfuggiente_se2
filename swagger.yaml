@@ -86,7 +86,7 @@ paths:
           description: "Done"
         400:
           description: "Invalid input"
-  /exams/{examId}/submissions/{submissionId}:
+  /submissions/{id}:
     parameters:
     - name: examId
       in: path
