@@ -17,7 +17,6 @@ paths:
       tags:
       - "Exams"
       summary: "Create an Exam"
-      # TODO: Add parameters
       parameters:
       - in: "body"
         name: "body"
@@ -37,7 +36,7 @@ paths:
       type: integer
       minimum: 1
     get:
-      summary: Get exam info
+      summary: Get exam info with associated groups
       responses:
         200:
           description: Successful response
@@ -48,6 +47,7 @@ paths:
               id: 1
               name: 'MyExam'
               exercises_ids: [4,5,78,64,61,98]
+              groups_ids: [43,765,54,98]
     put:
       summary: Edit an exam
       parameters:
@@ -61,52 +61,6 @@ paths:
           description: 'Modified successfully'
     delete:
       summary: Delete an exam
-      responses:
-        200:
-          description: 'Deleted successfully'
-  /exams/{id}/groups:
-    parameters:
-    - name: id
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    get:
-      summary: Get groups associated with an exam
-      responses:
-        200:
-          description: Successful response
-          examples:
-            'application/json':
-              - id: 143
-                groups_ids: [43,765,54,98]
-    post:
-      summary: Add a group for this specific exam
-      parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/GroupId"
-      responses:
-        200:
-          description: "Done"
-        400:
-          description: "Invalid input"
-  /exams/{examId}/groups/{groupId}:
-    parameters:
-    - name: examId
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    - name: groupId
-      in: path
-      required: true
-      type: integer
-      minimum: 1
-    delete:
-      summary: Remove a group assigned to an exam
       responses:
         200:
           description: 'Deleted successfully'
@@ -404,6 +358,9 @@ definitions:
       exercises:
         type: "array"
         example: [1,98,54,78,100]
+      groups:
+        type: "array"
+        example: [34,65,12]
   Comment:
     type: "object"
     required:
