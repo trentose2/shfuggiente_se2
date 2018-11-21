@@ -386,6 +386,52 @@ paths:
           examples:
             'application/json':
               submissions_ids: [1,54,76,43,87]
+  /exercises:
+    post:
+      tags:
+        - "Exercises"
+      summary: Create a new Exercise
+      parameters:
+      - in: "body"
+        name: "Exercise informations"
+        required: true
+        schema:
+          $ref: "#/definitions/User"  
+      responses:
+        200:
+          description: "Exercise created successfully"
+        400:
+          description: "Error creating Exercise"
+  /exercise/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: integer
+      minimum: 1
+    delete:
+      summary: "Delete exercise"
+      responses:
+        200:
+          description: 'Deleted successfully'
+    put:
+      summary: "Edit user"
+      parameters:
+      - in: "body"
+        name: "Exercise"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Exercise modified successfully"
+    get:
+      summary: "Get exercize text and autor id"
+      responses:
+        200:
+          description: "successful response"
+          schema:
+            $ref: "#/definitions/Exercise"                               
 definitions:
   Submission:
     type: "object"
@@ -513,6 +559,23 @@ definitions:
       groups:
         type: "array"
         example: [34,65,12,6]
+  Exercise:
+    type: "object"
+    required:
+    - "author_id"
+    - "text"
+    properties:
+      id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
+      autor_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
+      text:
+        type: "string"
+        example: "What is this question?"
 externalDocs:
   description: "Find out more about Shfuggiente SE 2"
   url: "https://github.com/Fodark/shfuggiente_se2/wiki"
