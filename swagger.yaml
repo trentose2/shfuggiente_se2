@@ -464,6 +464,10 @@ definitions:
         type: "integer"
         minimum: 1
         format: "int64"
+      author_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
       name:
         type: "string"
         example: "Exam 1"
