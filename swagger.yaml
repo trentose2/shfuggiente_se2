@@ -114,7 +114,7 @@ paths:
         200:
           description: 'Modified successfully'
     delete:
-      summary: Delete the Submission
+      summary: Dselete the Submission
       responses:
         200:
           description: 'Deleted successfully'
@@ -424,7 +424,7 @@ paths:
         200:
           description: "Exercise modified successfully"
     get:
-      summary: "Get exercize text and autor id"
+      summary: "Get exercise text and autor id"
       responses:
         200:
           description: "successful response"
