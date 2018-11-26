@@ -396,7 +396,7 @@ paths:
         name: "Exercise informations"
         required: true
         schema:
-          $ref: "#/definitions/User"  
+          $ref: "#/definitions/Exercise"  
       responses:
         200:
           description: "Exercise created successfully"
@@ -473,6 +473,9 @@ definitions:
       groups:
         type: "array"
         example: [34,65,12]
+      deadline:
+        type: "string"
+        format: ""
   Comment:
     type: "object"
     required:
@@ -569,7 +572,7 @@ definitions:
         type: "integer"
         minimum: 1
         format: "int64"
-      autor_id:
+      author_id:
         type: "integer"
         minimum: 1
         format: "int64"
