@@ -475,7 +475,8 @@ definitions:
         example: [34,65,12]
       deadline:
         type: "string"
-        format: ""
+        format: "date-time"
+        example: "2017-07-21T17:32:28Z"
   Comment:
     type: "object"
     required:
