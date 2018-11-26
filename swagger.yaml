@@ -131,8 +131,7 @@ paths:
         200:
           description: Successful response
           examples:
-            'application/json':
-              - comments_ids: [43,765,54,98]
+            comments_ids: [43,765,54,98]
     post:
       summary: Create a comment for this specific submission
       parameters:
@@ -159,8 +158,7 @@ paths:
         200:
           description: Successful response
           examples:
-            'application/json':
-              - marks_ids: [120,45,53,19]
+            marks_ids: [120,45,53,19]
     post:
       summary: Create a mark for this specific submission
       parameters:
