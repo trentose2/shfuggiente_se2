@@ -114,7 +114,7 @@ paths:
         200:
           description: 'Modified successfully'
     delete:
-      summary: delete the Submission
+      summary: Delete the Submission
       responses:
         200:
           description: 'Deleted successfully'
