@@ -205,11 +205,12 @@ test('Create exam with invalid (not date-time) deadline', () => {
     })
 })
 
-test('Create exam with invalid (not date-time) deadline', () => {
+test('Create exam with invalid (not int) execises', () => {
 
     const body = {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
+        exercises: ['43', '87', '62', '87', '98'],
         deadline: '2019-07-21'
     }
 
@@ -224,6 +225,65 @@ test('Create exam with invalid (not date-time) deadline', () => {
     })
 })
 
+test('Create exam with invalid (negative) execises', () => {
+
+    const body = {
+        author_id: 'id',
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, -62, 87, 98],
+        deadline: '2019-07-21'
+    }
+
+    expect.assertions()
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+    })
+})
+
+test('Create exam with invalid (not int) groups', () => {
+
+    const body = {
+        author_id: 'id',
+        name: "Software Engineering II - 15/11/2018",
+        groups: ['13', '15', '17'],
+        deadline: '2019-07-21'
+    }
+
+    expect.assertions()
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+    })
+})
+
+test('Create exam with invalid (negative) groups', () => {
+
+    const body = {
+        author_id: 'id',
+        name: "Software Engineering II - 15/11/2018",
+        groups: [13, -15, 17],
+        deadline: '2019-07-21'
+    }
+
+    expect.assertions()
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+    })
+})
 
 afterAll(() => {
 	server.close()
