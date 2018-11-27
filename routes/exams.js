@@ -3,6 +3,7 @@ let router = express.Router()
 
 let exams = []
 
+// /exams endpoint
 router.post('/exams', (req, res, next) => {
 
     //check body params number (3 to 5)
@@ -70,6 +71,19 @@ router.post('/exams', (req, res, next) => {
     exams.push(tmp)
 
     //return confirmation if everithing is fine
-    res.status(200).send("Exam created successfully")
-    
+    res.status(200).send(tmp.id)
+
+})
+
+// /exams/:id endpoint
+router.get('/exams/:id', (req, res, next) => {
+    let id = parseInt(req.params.id)
+    let examsMatching = exams.filter(elem => {
+        return elem.id === id
+    })
+    if(examsMatching.length === 1) {
+        res.status(200).send(examsMatching[0])
+    } else {
+        res.status(404).send('404 - Resource not found')
+    }
 })
