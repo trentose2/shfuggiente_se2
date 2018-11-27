@@ -56,7 +56,7 @@ test('Create a valid Exam with fewer informations', () => {
         deadline: '2019-07-21T17:32:28Z'
     }
 
-    expect.assertions(10)
+    expect.assertions(9)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -96,7 +96,7 @@ test('Create exam with invalid (negative) author id', () => {
         deadline: '2019-07-21T17:32:28Z'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -115,7 +115,7 @@ test('Create exam with invalid (not int) author id', () => {
         deadline: '2019-07-21T17:32:28Z'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -134,7 +134,7 @@ test('Create exam with invalid (object) name', () => {
         deadline: '2019-07-21T17:32:28Z'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -153,7 +153,7 @@ test('Create exam with invalid (not date-time) deadline', () => {
         deadline: '2019-07-21'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -173,7 +173,7 @@ test('Create exam with invalid (not int) execises', () => {
         deadline: '2019-07-21'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -193,7 +193,7 @@ test('Create exam with invalid (negative) execises', () => {
         deadline: '2019-07-21'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -213,7 +213,7 @@ test('Create exam with invalid (not int) groups', () => {
         deadline: '2019-07-21'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -233,7 +233,7 @@ test('Create exam with invalid (negative) groups', () => {
         deadline: '2019-07-21'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -251,7 +251,7 @@ test('Create exam with too few arguments', () => {
         name: "Software Engineering II - 15/11/2018",
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
@@ -273,7 +273,7 @@ test('Create exam with too many/ wrong arguments', () => {
         deadline: '2019-07-21T17:32:28Z'
     }
 
-    expect.assertions()
+    expect.assertions(1)
     return fetch(BASE_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'}, 
