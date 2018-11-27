@@ -3,11 +3,11 @@ let router = express.Router()
 
 var groups = [{
     "id": 1,
-    "name": "group1"
+    "name": "Group1"
 },
 {
     "id": 2,
-    "name": "group2"
+    "name": "Group2"
 }];
 
 router.get('/groups', (req, res, next) => {
