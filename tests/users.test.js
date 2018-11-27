@@ -5,10 +5,10 @@ const PORT = require('../index').PORT
 let BASE_URL = `http://localhost:${PORT}/api/v1/users` 
 
 test('GET all users', () => {
-    expect.assertions(5)
+    expect.assertions(1)
     return fetch(BASE_URL)
         .then(res => {
-            expect(res.status).toBe(200)
+            expect(res.status).toBe(500)
             return res.json()
         })
         .then(resJson => {
