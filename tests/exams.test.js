@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 const server = require('../index').server
 const PORT = require('../index').PORT
 
-let BASE_URL = `http://localhost:${PORT}/exams` 
+let BASE_URL = `http://localhost:${PORT}/api/v1/exams` 
 
 test('Create a valid Exam with exercises and groups', () => {
 
@@ -11,7 +11,7 @@ test('Create a valid Exam with exercises and groups', () => {
         name: "Software Engineering II - 15/11/2018",
         exercises: [43,87,62,87,98],
         groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(10)
@@ -42,7 +42,7 @@ test('Create a valid Exam with exercises and groups', () => {
             expect(response_body.exercises < body.exercises).toBe(false)
             expect(response_body.groups > body.groups).toBe(false)
             expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe('2019-07-21T17:32:28Z')
+            expect(response_body.deadline).toBe('2019-07-21T17:32:28.000Z')
         })
 
 })
@@ -82,8 +82,8 @@ test('Create a valid Exam with fewer informations', () => {
             expect(response_body.name).toBe("Software Engineering II - 15/11/2018")
             expect(response_body.exercises > body.exercises).toBe(false)
             expect(response_body.exercises < body.exercises).toBe(false)
-            expect(response_body.groups.lenght()).toBe(0)
-            expect(response_body.deadline).toBe('2019-07-21T17:32:28Z')
+            expect(response_body.groups.length).toBe(0)
+            expect(response_body.deadline).toBe('2019-07-21T17:32:28.000Z')
         })
 
 })
@@ -93,7 +93,7 @@ test('Create exam with invalid (negative) author id', () => {
     const body = {
         author_id: -3,
         name: "Software Engineering II - 15/11/2018",
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -112,7 +112,7 @@ test('Create exam with invalid (not int) author id', () => {
     const body = {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -131,7 +131,7 @@ test('Create exam with invalid (object) name', () => {
     const body = {
         author_id: 'id',
         name: [1, 2],
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -170,7 +170,7 @@ test('Create exam with invalid (not int) execises', () => {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
         exercises: ['43', '87', '62', '87', '98'],
-        deadline: '2019-07-21'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -190,7 +190,7 @@ test('Create exam with invalid (negative) execises', () => {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
         exercises: [43, 87, -62, 87, 98],
-        deadline: '2019-07-21'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -210,7 +210,7 @@ test('Create exam with invalid (not int) groups', () => {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
         groups: ['13', '15', '17'],
-        deadline: '2019-07-21'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -230,7 +230,7 @@ test('Create exam with invalid (negative) groups', () => {
         author_id: 'id',
         name: "Software Engineering II - 15/11/2018",
         groups: [13, -15, 17],
-        deadline: '2019-07-21'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
@@ -270,7 +270,7 @@ test('Create exam with too many/ wrong arguments', () => {
         name: "Software Engineering II - 15/11/2018",
         exercises: [43,87,62,87,98],
         groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)

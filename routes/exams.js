@@ -1,26 +1,37 @@
 let express = require('express')
 let router = express.Router()
 
-let exams = []
+let exams = [
+    {
+        id: 2,
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43,87,62,87,98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28Z'
+    }
+]
 
 // /exams endpoint
 router.post('/exams', (req, res, next) => {
 
     //check body params number (3 to 5)
-    if (req.body.length < 3)
-        res.status(400).send("400 - Too few exam arguments")
-    if (req.body.length > 5)
-        res.status(400).send("400 - Too many exam arguments")
+    if (Object.keys(req.body).length < 3)
+        return res.status(400).send("400 - Too few exam arguments")
+    if (Object.keys(req.body).length > 5)
+        return res.status(400).send("400 - Too many exam arguments")
 
     //check author id validity (integer >= 0)
     let author_id = parseInt(req.body.author_id)
-    if (author_id == NaN)
-        res.status(400).send("400 - Bad author_id parameter (NaN) o absent")   
+    if (isNaN( author_id))
+        return res.status(400).send("400 - Bad author_id parameter (NaN) o absent")  
+    if ( author_id < 0)     
+        return res.status(400).send("400 - Bad author_id parameter (negative)")
 
     //check name validity (numbers and characters are allowed, objects are not)    
     let name = req.body.name
     if (typeof name === "object" || name instanceof Object)
-        res.status(400).send("400 - Bad name, object are not allowed")
+        return res.status(400).send("400 - Bad name, object are not allowed")
 
     //check exercises validity (array of int) if in the body  
     let exercises = req.body.exercises   
@@ -28,12 +39,12 @@ router.post('/exams', (req, res, next) => {
         exercises = []
     else {
         if (exercises.constructor !== Array)
-            res.status(400).send("400 - Bad exercises, not an array")
+            return res.status(400).send("400 - Bad exercises, not an array")
         exercises.forEach(element => {
-            if (!element.isInteger)
-                res.status(400).send("400 - Bad exercises, not integer id")
+            if (!Number.isInteger(element))
+                return res.status(400).send("400 - Bad exercises, not integer id")
             if (element < 0)
-                res.status(400).send("400 - Bad exercises, id lower than 0")
+                return res.status(400).send("400 - Bad exercises, id lower than 0")
         });
     }
 
@@ -43,19 +54,19 @@ router.post('/exams', (req, res, next) => {
         groups = []
     else {
         if (groups.constructor !== Array)
-            res.status(400).send("400 - Bad groups, not an array")
+            return res.status(400).send("400 - Bad groups, not an array")
         groups.forEach(element => {
-            if (!element.isInteger)
-                res.status(400).send("400 - Bad groups, not integer id")
+            if (!Number.isInteger(element))
+                return res.status(400).send("400 - Bad groups, not integer id")
             if (element < 0)
-                res.status(400).send("400 - Bad groups, id lower than 0")
+                return res.status(400).send("400 - Bad groups, id lower than 0")
         });
     }
 
     //check date-time validity
     let deadline = new Date(req.body.deadline)
     if (!(deadline instanceof Date))
-        res.status(400).send("400 - Bade date format")
+        return res.status(400).send("400 - Bade date format")
 
     //creating and adding new exam
     let tmp = {
@@ -71,7 +82,7 @@ router.post('/exams', (req, res, next) => {
     exams.push(tmp)
 
     //return confirmation if everithing is fine
-    res.status(200).send(tmp.id)
+    return res.status(200).send({id: tmp.id})
 
 })
 
@@ -82,8 +93,10 @@ router.get('/exams/:id', (req, res, next) => {
         return elem.id === id
     })
     if(examsMatching.length === 1) {
-        res.status(200).send(examsMatching[0])
+        return res.status(200).send(examsMatching[0])
     } else {
-        res.status(404).send('404 - Resource not found')
+        return res.status(404).send('404 - Resource not found')
     }
 })
+
+module.exports = router
