@@ -129,6 +129,45 @@ test('Create a valid Exam with groups', () => {
 
 })
 
+test('Create a valid Exam without groups and exercises', () => {
+
+    const body = {
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        deadline: '2019-07-21T17:32:28Z'
+    }
+
+    expect.assertions(10)
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+        })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.id).toBeGreaterThan(0)
+            return response_body.id
+        })
+        .then(id => {
+            return fetch(BASE_URL + '/' + id)
+        })
+        .then(res => {
+            expect(res.status).toBe(200)
+			return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.author_id).toBe(3)
+            expect(response_body.name).toBe("Software Engineering II - 15/11/2018")
+            expect(response_body.exercises.lenght()).toBe(0)
+            expect(response_body.groups.lenght()).toBe(0)
+            expect(response_body.deadline).toBe('2019-07-21T17:32:28Z')
+        })
+
+})
+
 test('Create exam with invalid (negative) author id', () => {
 
     const body = {
