@@ -262,6 +262,28 @@ test('Create exam with too few arguments', () => {
     })
 })
 
+test('Create exam with too many/ wrong arguments', () => {
+
+    const body = {
+        id: 3,
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43,87,62,87,98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28Z'
+    }
+
+    expect.assertions()
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+    })
+})
+
 afterAll(() => {
 	server.close()
 })
