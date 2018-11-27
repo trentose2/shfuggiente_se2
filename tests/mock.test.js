@@ -1,6 +1,6 @@
 const fetch = require('node-fetch')
-const server = require('./index').server
-const PORT = require('./index').PORT
+const server = require('../index').server
+const PORT = require('../index').PORT
 
 let BASE_URL = `http://localhost:${PORT}/` 
 
