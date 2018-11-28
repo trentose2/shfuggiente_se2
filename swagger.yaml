@@ -456,7 +456,12 @@ definitions:
   Exam:
     type: "object"
     required:
+    - "id"
     - "name"
+    - "author_id"
+    - "exercises"
+    - "groups"
+    - "deadline"
     properties:
       id:
         type: "integer"
