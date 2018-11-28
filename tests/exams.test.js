@@ -38,8 +38,10 @@ test('Create a valid Exam with exercises and groups', () => {
         .then(response_body => {
             expect(response_body.author_id).toBe(body.author_id);
             expect(response_body.name).toBe(body.name)
-            expect(response_body.exercises > body.exercises).toBe(false)
+            //check if exercises is equal to the one provided
+            expect(response_body.exercises > body.exercises).toBe(false) 
             expect(response_body.exercises < body.exercises).toBe(false)
+            //check if groups is equal to the one provided
             expect(response_body.groups > body.groups).toBe(false)
             expect(response_body.groups < body.groups).toBe(false)
             expect(response_body.deadline).toBe(body.deadline)
@@ -80,8 +82,10 @@ test('Create a valid Exam with fewer informations', () => {
         .then(response_body => {
             expect(response_body.author_id).toBe(body.author_id);
             expect(response_body.name).toBe(body.name)
+            //check if exercises is equal to the one provided
             expect(response_body.exercises > body.exercises).toBe(false)
             expect(response_body.exercises < body.exercises).toBe(false)
+            //check if groups is empty as expected
             expect(response_body.groups.length).toBe(0)
             expect(response_body.deadline).toBe(body.deadline)
         })
