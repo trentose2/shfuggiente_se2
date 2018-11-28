@@ -8,7 +8,7 @@ let exams = [
         name: "Software Engineering II - 15/11/2018",
         exercises: [43,87,62,87,98],
         groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 ]
 
@@ -64,9 +64,9 @@ router.post('/exams', (req, res, next) => {
     }
 
     //check date-time validity
-    let deadline = new Date(req.body.deadline)
-    if (!(deadline instanceof Date))
+    if ( req.body.deadline.length != 24 || isNaN(Date.parse(req.body.deadline))) // controllo la lunghezza della stringa date-time e che sia convertibile in una data
         return res.status(400).send("400 - Bade date format")
+    let deadline = new Date(req.body.deadline)
 
     //creating and adding new exam
     let tmp = {

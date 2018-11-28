@@ -53,7 +53,7 @@ test('Create a valid Exam with fewer informations', () => {
         author_id: 3,
         name: "Software Engineering II - 15/11/2018",
         exercises: [43,87,62,87,98],
-        deadline: '2019-07-21T17:32:28Z'
+        deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(9)
@@ -104,6 +104,10 @@ test('Create exam with invalid (negative) author id', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
@@ -123,13 +127,17 @@ test('Create exam with invalid (not int) author id', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with invalid (object) name', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: [1, 2],
         deadline: '2019-07-21T17:32:28.000Z'
     }
@@ -142,13 +150,17 @@ test('Create exam with invalid (object) name', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with invalid (not date-time) deadline', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
         deadline: '2019-07-21'
     }
@@ -161,13 +173,17 @@ test('Create exam with invalid (not date-time) deadline', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then(err =>{
+        console.log(err)
     })
 })
 
 test('Create exam with invalid (not int) execises', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
         exercises: ['43', '87', '62', '87', '98'],
         deadline: '2019-07-21T17:32:28.000Z'
@@ -181,13 +197,41 @@ test('Create exam with invalid (not int) execises', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
+    })
+})
+
+test('Create exam with invalid (not intArray) execises', () => {
+
+    const body = {
+        author_id: '3',
+        name: "Software Engineering II - 15/11/2018",
+        exercises: "[43, 87, 62, 87, 98]",
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with invalid (negative) execises', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
         exercises: [43, 87, -62, 87, 98],
         deadline: '2019-07-21T17:32:28.000Z'
@@ -201,13 +245,17 @@ test('Create exam with invalid (negative) execises', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with invalid (not int) groups', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
         groups: ['13', '15', '17'],
         deadline: '2019-07-21T17:32:28.000Z'
@@ -221,13 +269,41 @@ test('Create exam with invalid (not int) groups', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
+    })
+})
+
+test('Create exam with invalid (not intArray) groups', () => {
+
+    const body = {
+        author_id: '3',
+        name: "Software Engineering II - 15/11/2018",
+        groups: "[43, 87, 62, 87, 98]",
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'}, 
+                body: JSON.stringify(body)
+    })
+    .then(res => {
+        expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with invalid (negative) groups', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
         groups: [13, -15, 17],
         deadline: '2019-07-21T17:32:28.000Z'
@@ -241,13 +317,17 @@ test('Create exam with invalid (negative) groups', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
 test('Create exam with too few arguments', () => {
 
     const body = {
-        author_id: 'id',
+        author_id: '3',
         name: "Software Engineering II - 15/11/2018",
     }
 
@@ -259,6 +339,10 @@ test('Create exam with too few arguments', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
 
@@ -281,8 +365,14 @@ test('Create exam with too many/ wrong arguments', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)   
     })
 })
+
+
 
 afterAll(() => {
 	server.close()
