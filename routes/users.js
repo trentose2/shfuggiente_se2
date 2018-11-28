@@ -25,11 +25,11 @@ let users = [
     }
 ]
 
-router.get('/users', (req, res, next) => {
+router.get('/users', (req, res) => {
     res.status(200).json(users)
 })
 
-router.post('/users', (req, res, next) => {
+router.post('/users', (req, res) => {
     let user = req.body
     if(user.id === undefined) {
         if(user.name !== undefined && user.surname !== undefined && user.mail !== undefined && user.role !== undefined) {
@@ -53,7 +53,7 @@ router.post('/users', (req, res, next) => {
     }
 })
 
-router.get('/users/:id', (req, res, next) => {
+router.get('/users/:id', (req, res) => {
     let id = parseInt(req.params.id)
     let usersMatching = users.filter(elem => {
         return elem.id === id

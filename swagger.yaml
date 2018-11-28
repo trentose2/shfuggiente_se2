@@ -45,7 +45,7 @@ paths:
         404:
           description: Resource not found
         400:
-          description: Bad request  
+          description: Bad request
     put:
       summary: Edit an exam
       parameters:
