@@ -13,7 +13,7 @@ let exams = [
 ]
 
 // /exams endpoint
-router.post('/exams', (req, res, next) => {
+router.post('/exams', (req, res) => {
 
     //check body params number (3 to 5)
     if (Object.keys(req.body).length < 3)
@@ -87,7 +87,7 @@ router.post('/exams', (req, res, next) => {
 })
 
 // /exams/:id endpoint
-router.get('/exams/:id', (req, res, next) => {
+router.get('/exams/:id', (req, res) => {
     
     let id = parseInt(req.params.id)
     if(isNaN(id))
