@@ -372,7 +372,18 @@ test('Create exam with too many/ wrong arguments', () => {
     })
 })
 
+test('Try to reach a non existing exam', () => {
 
+    expect.assertions(1)
+    return fetch(BASE_URL + '/18')
+    .then( res => {
+        expect(res.status).toBe(404)
+        return res.text()
+    })
+    .then( res => {
+        console.log(res)
+    })
+})
 
 afterAll(() => {
 	server.close()
