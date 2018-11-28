@@ -22,7 +22,7 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/Exam"
+          $ref: "#/definitions/ExamCreation"
       responses:
         200:
           description: "Done"
@@ -394,7 +394,7 @@ paths:
         name: "Exercise informations"
         required: true
         schema:
-          $ref: "#/definitions/Exercise"  
+          $ref: "#/definitions/Exercise"
       responses:
         200:
           description: "Exercise created successfully"
@@ -429,7 +429,7 @@ paths:
         200:
           description: "successful response"
           schema:
-            $ref: "#/definitions/Exercise"                               
+            $ref: "#/definitions/Exercise"
 definitions:
   Submission:
     type: "object"
@@ -478,7 +478,31 @@ definitions:
       deadline:
         type: "string"
         format: "date-time"
-        example: "2017-07-21T17:32:28Z"
+        example: "2017-07-21T17:32:28.000Z"
+  ExamCreation:
+    type: "object"
+    required:
+    - "name"
+    - "author_id"
+    - "deadline"
+    properties:
+      author_id:
+        type: "integer"
+        minimum: 1
+        format: "int64"
+      name:
+        type: "string"
+        example: "Exam 1"
+      exercises:
+        type: "array"
+        example: [1,98,54,78,100]
+      groups:
+        type: "array"
+        example: [34,65,12]
+      deadline:
+        type: "string"
+        format: "date-time"
+        example: "2017-07-21T17:32:28.000Z"
   Comment:
     type: "object"
     required:
