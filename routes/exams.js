@@ -88,7 +88,13 @@ router.post('/exams', (req, res, next) => {
 
 // /exams/:id endpoint
 router.get('/exams/:id', (req, res, next) => {
+    
     let id = parseInt(req.params.id)
+    if(isNaN(id))
+        return res.status(400).send('400 - Bad request (non integer id)')
+    if(id < 0)
+        return res.status(400).send('400 - Bad request (negative id)')
+
     let examsMatching = exams.filter(elem => {
         return elem.id === id
     })

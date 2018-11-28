@@ -36,13 +36,13 @@ test('Create a valid Exam with exercises and groups', () => {
 			return res.json()
         })
         .then(response_body => {
-            expect(response_body.author_id).toBe(3);
-            expect(response_body.name).toBe("Software Engineering II - 15/11/2018")
+            expect(response_body.author_id).toBe(body.author_id);
+            expect(response_body.name).toBe(body.name)
             expect(response_body.exercises > body.exercises).toBe(false)
             expect(response_body.exercises < body.exercises).toBe(false)
             expect(response_body.groups > body.groups).toBe(false)
             expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe('2019-07-21T17:32:28.000Z')
+            expect(response_body.deadline).toBe(body.deadline)
         })
 
 })
@@ -78,12 +78,12 @@ test('Create a valid Exam with fewer informations', () => {
 			return res.json()
         })
         .then(response_body => {
-            expect(response_body.author_id).toBe(3)
-            expect(response_body.name).toBe("Software Engineering II - 15/11/2018")
+            expect(response_body.author_id).toBe(body.author_id);
+            expect(response_body.name).toBe(body.name)
             expect(response_body.exercises > body.exercises).toBe(false)
             expect(response_body.exercises < body.exercises).toBe(false)
             expect(response_body.groups.length).toBe(0)
-            expect(response_body.deadline).toBe('2019-07-21T17:32:28.000Z')
+            expect(response_body.deadline).toBe(body.deadline)
         })
 
 })
@@ -104,10 +104,6 @@ test('Create exam with invalid (negative) author id', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -127,10 +123,6 @@ test('Create exam with invalid (not int) author id', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -150,10 +142,6 @@ test('Create exam with invalid (object) name', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -173,10 +161,6 @@ test('Create exam with invalid (not date-time) deadline', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then(err =>{
-        console.log(err)
     })
 })
 
@@ -197,10 +181,6 @@ test('Create exam with invalid (not int) execises', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -221,10 +201,6 @@ test('Create exam with invalid (not intArray) execises', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -245,10 +221,6 @@ test('Create exam with invalid (negative) execises', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -269,10 +241,6 @@ test('Create exam with invalid (not int) groups', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -293,10 +261,6 @@ test('Create exam with invalid (not intArray) groups', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -317,10 +281,6 @@ test('Create exam with invalid (negative) groups', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -339,10 +299,6 @@ test('Create exam with too few arguments', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
-    })
-    .then( res => {
-        console.log(res)   
     })
 })
 
@@ -365,10 +321,33 @@ test('Create exam with too many/ wrong arguments', () => {
     })
     .then(res => {
         expect(res.status).toBe(400) //bad request
-        return res.text()
     })
-    .then( res => {
-        console.log(res)   
+})
+
+test('try to reach an existing exam', () => {
+    
+    const body = {
+        id: 2,
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43,87,62,87,98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    return fetch(BASE_URL + "/" + body.id)
+    .then(res => {
+        expect(res.status).toBe(200)
+        return res.json()
+    })
+    .then(response_body => {
+        expect(response_body.author_id).toBe(body.author_id);
+        expect(response_body.name).toBe(body.name)
+        expect(response_body.exercises > body.exercises).toBe(false)
+        expect(response_body.exercises < body.exercises).toBe(false)
+        expect(response_body.groups > body.groups).toBe(false)
+        expect(response_body.groups < body.groups).toBe(false)
+        expect(response_body.deadline).toBe(body.deadline)
     })
 })
 
@@ -378,10 +357,24 @@ test('Try to reach a non existing exam', () => {
     return fetch(BASE_URL + '/18')
     .then( res => {
         expect(res.status).toBe(404)
-        return res.text()
     })
+})
+
+test('Try to reach an exam with negative id', () => {
+
+    expect.assertions(1)
+    return fetch(BASE_URL + '/-3')
     .then( res => {
-        console.log(res)
+        expect(res.status).toBe(400)
+    })
+})
+
+test('Try to reach an exam with non int id', () => {
+
+    expect.assertions(1)
+    return fetch(BASE_URL + '/notanint')
+    .then( res => {
+        expect(res.status).toBe(400)
     })
 })
 
