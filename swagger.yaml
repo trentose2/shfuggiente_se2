@@ -42,6 +42,10 @@ paths:
           description: Successful response
           schema:
             $ref: '#/definitions/Exam'
+        404:
+          description: Resource not found
+        400:
+          description: Bad request  
     put:
       summary: Edit an exam
       parameters:
