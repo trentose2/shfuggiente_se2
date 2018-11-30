@@ -1,6 +1,5 @@
 const fetch = require('node-fetch')
-const server = require('../index').server
-const PORT = require('../index').PORT
+const PORT = process.env.PORT || 3000
 
 let BASE_URL = `http://localhost:${PORT}/api/v1/users` 
 
@@ -45,7 +44,7 @@ test('GET single user with non-existent ID', () => {
         })
 })
 
-test('GET single user with wrong path paramter', () => {
+test('GET single user with non-integer parameter', () => {
     expect.assertions(1)
     return fetch(`${BASE_URL}/giandigia`)
         .then(res => {
@@ -130,6 +129,44 @@ test('POST create a new user without required parameters', () => {
     })
 })
 
-afterAll(() => {
-	server.close()
+test('DELETE an user with valid ID', () => {
+    expect.assertions(4)
+    return fetch(`${BASE_URL}/1`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        expect(res.status).toBe(200)
+        return fetch(`${BASE_URL}`)
+    })
+    .then(res => {
+        expect(res.status).toBe(200)
+        return res.json()
+    })
+    .then(resJson => {
+        expect(resJson).toHaveLength(3)
+        expect(resJson[0].id).toBe(2)
+    })
+})
+
+
+
+test('DELETE an user with non-existent ID', () => {
+    expect.assertions(1)
+    return fetch(`${BASE_URL}/0`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        expect(res.status).toBe(404)
+    })
+        
+})
+
+test('DELETE an user with a string path parameter', () => {
+    expect.assertions(1)
+    return fetch(`${BASE_URL}/fabio`, {
+        method: 'DELETE'
+    })
+    .then(res => {
+        expect(res.status).toBe(400)
+    })
 })

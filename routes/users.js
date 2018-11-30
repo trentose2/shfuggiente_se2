@@ -65,4 +65,24 @@ router.get('/users/:id', (req, res) => {
     }
 })
 
+router.delete('/users/:id', (req, res) => {
+    let id = parseInt(req.params.id)
+
+    if(!Number.isInteger(id)) {
+        res.status(400).send('ID is not an integer')
+        return
+    }
+
+    let resultingUsers = users.filter(el => {
+        return el.id !== id
+    })
+
+    if(resultingUsers.length === (users.length - 1)) {
+        users = resultingUsers
+        res.status(200).send()
+    } else {
+        res.status(404).send('Resource not found')
+    }
+})
+
 module.exports = router

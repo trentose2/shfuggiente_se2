@@ -1,6 +1,5 @@
 const fetch = require('node-fetch')
-const server = require('../index').server
-const PORT = require('../index').PORT
+const PORT = process.env.PORT || 3000
 
 let BASE_URL = `http://localhost:${PORT}/` 
 
@@ -14,8 +13,4 @@ test('hello world', () => {
 		.then(text => {
 			expect(text).toBe('Hello World!')
 		})
-})
-
-afterAll(() => {
-	server.close()
 })
