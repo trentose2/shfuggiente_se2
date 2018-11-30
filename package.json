@@ -4,7 +4,7 @@
   "description": "A Node.js API Project for the Software Engineering course",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "test": "jest"
   },
   "repository": {
