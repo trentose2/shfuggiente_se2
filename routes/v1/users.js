@@ -55,6 +55,12 @@ router.post('/users', (req, res) => {
 
 router.get('/users/:id', (req, res) => {
     let id = parseInt(req.params.id)
+
+    if(!Number.isInteger(id)) {
+        res.status(400).send()
+        return
+    }
+
     let usersMatching = users.filter(elem => {
         return elem.id === id
     })
@@ -85,4 +91,4 @@ router.delete('/users/:id', (req, res) => {
     }
 })
 
-module.exports = router
+module.exports.router = router

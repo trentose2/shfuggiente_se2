@@ -4,12 +4,8 @@ var bodyParser = require('body-parser')
 
 app.use(bodyParser.json())
 
-let usersRouter = require('./routes/users')
+let v1Router = require('./routes/v1/routes').router
 
-app.use('/api/v1', usersRouter)
-
-app.get('/', (req, res) => {
-	res.send('Hello World!')
-})
+app.use('/api/v1', v1Router)
 
 module.exports = app
