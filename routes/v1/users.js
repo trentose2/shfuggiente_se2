@@ -91,4 +91,41 @@ router.delete('/users/:id', (req, res) => {
     }
 })
 
+router.put('/users/:id', (req, res) => {
+    let id = parseInt(req.params.id)
+    let user = req.body
+
+    if(!Number.isInteger(id)) {
+        res.status(400).send('ID is not an integer')
+        return
+    }
+
+    console.log(id)
+
+    let usersMatching = users.filter(elem => {
+        return elem.id === id
+    })
+
+    console.log(usersMatching)
+
+    if(usersMatching.length !== 1) {
+        res.status(404).send('Resource not found')
+        return
+    }
+
+    if(user.id || user.name || user.surname) {
+        res.status(403).send('Unauthorized to modify ID or name or surname')
+        return
+    }
+
+    users.forEach((elem, i) => {
+        if(elem.id === id) {
+            users[i].mail = user.mail || users[i].mail
+            users[i].role = user.role || users[i].role
+        }
+    })
+
+    res.status(200).send()
+})
+
 module.exports.router = router

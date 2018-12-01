@@ -158,3 +158,95 @@ describe('DELETE /users', () => {
             })
     })
 })
+
+describe('PUT /users', () => {
+    let validUser = {
+        mail: 'new@mail.com'
+    }
+
+    let validUserRole = {
+        role: 'teacher'
+    }
+
+    let invalidUserId = {
+        id: 3,
+        mail: 'new@mail.com'
+    }
+
+    let invalidUserName = {
+        name: 'Gianni',
+        role: 'student'
+    }
+
+    test('PUT valid user (change mail)', () => {
+        return request(app)
+            .put('/api/v1/users/2')
+            .send(validUser)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/users/2')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(resBody.mail).toBe('new@mail.com')
+            })
+    })
+
+    test('PUT valid user (change role)', () => {
+        return request(app)
+            .put('/api/v1/users/2')
+            .send(validUserRole)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/users/2')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(resBody.role).toBe('teacher')
+            })
+    })
+
+    test('PUT invalid user (change ID)', () => {
+        return request(app)
+            .put('/api/v1/users/2')
+            .send(invalidUserId)
+            .then(res => {
+                expect(res.status).toBe(403)
+            })
+    })
+
+    test('PUT invalid user (change name)', () => {
+        return request(app)
+            .put('/api/v1/users/2')
+            .send(invalidUserName)
+            .then(res => {
+                expect(res.status).toBe(403)
+            })
+    })
+
+    test('PUT a non-existent ID', () => {
+        return request(app)
+            .put('/api/v1/users/0')
+            .send(validUser)
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('PUT a non-valid ID', () => {
+        return request(app)
+            .put('/api/v1/users/nome')
+            .send(validUser)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+})
