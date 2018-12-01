@@ -1,98 +1,66 @@
-const fetch = require('node-fetch')
-const PORT = process.env.PORT || 3000
+const app = require('../app')
+const request = require('supertest')
 
-let BASE_URL = `http://localhost:${PORT}/api/v1/users` 
+describe('GET /users', () => {
+    test('GET all users', () => {
+        return request(app)
+            .get('/api/v1/users')
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(typeof resBody).toBe('object')
+                expect(resBody).toHaveLength(3)
+                let first_user = resBody[0]
+                expect(first_user.id).toBe(1)
+                expect(first_user.name).toBe('Admin')
+            })
+    })
 
-test('GET all users', () => {
-    expect.assertions(5)
-    return fetch(BASE_URL)
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(resJson => {
-            expect(typeof resJson).toBe('object')
-            expect(resJson).toHaveLength(3)
-            let first_user = resJson[0]
-            expect(first_user.id).toBe(1)
-            expect(first_user.name).toBe('Admin')
-        })
+    test('GET single valid user', () => {
+        return request(app)
+            .get('/api/v1/users/2')
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(typeof resBody).toBe('object')
+                expect(resBody.id).toBe(2)
+                expect(resBody.name).toBe('Gianmarco')
+                expect(resBody.surname).toBe('Digiacomo')
+                expect(resBody.mail).toBe('giandigia@email.com')
+                expect(resBody.role).toBe('student')
+            })
+    })
+
+    test('GET single not-existent user', () => {
+        return request(app)
+            .get('/api/v1/users/0')
+            .then((res) => {
+                expect(res.statusCode).toBe(404)
+            })
+    })
+
+    test('GET single non-valid id', () => {
+        return request(app)
+            .get('/api/v1/users/giandigia')
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
 })
 
-test('GET single user with valid ID', () => {
-    expect.assertions(7)
-    return fetch(`${BASE_URL}/2`)
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(resJson => {
-            expect(typeof resJson).toBe('object')
-            expect(resJson.id).toBe(2)
-            expect(resJson.name).toBe('Gianmarco')
-            expect(resJson.surname).toBe('Digiacomo')
-            expect(resJson.mail).toBe('giandigia@email.com')
-            expect(resJson.role).toBe('student')
-        })
-})
-
-test('GET single user with non-existent ID', () => {
-    expect.assertions(1)
-    return fetch(`${BASE_URL}/0`)
-        .then(res => {
-            expect(res.status).toBe(404)
-        })
-})
-
-test('GET single user with non-integer parameter', () => {
-    expect.assertions(1)
-    return fetch(`${BASE_URL}/giandigia`)
-        .then(res => {
-            expect(res.status).toBe(404)
-        })
-})
-
-test('POST create a new user with correct data', () => {
-    let body = {
+describe('POST /users', () => {
+    let validUser = {
         name: 'Fabio',
         surname: 'Casagrande',
         mail: 'febo.casa@gmail.com',
         role: 'student'
     }
 
-    expect.assertions(8)
-    return fetch(`${BASE_URL}`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
-    })
-    .then(res => {
-        expect(res.status).toBe(200)
-        return res.json()
-    })
-    .then(resJson => {
-        let id = resJson.id
-        expect(id).toBeGreaterThan(0)
-        return id
-    })
-    .then(id => {
-        return fetch(`${BASE_URL}/${id}`)
-    })
-    .then(res => {
-        expect(res.status).toBe(200)
-        return res.json()
-    })
-    .then(resJson => {
-        expect(typeof resJson).toBe('object')
-        expect(resJson.name).toBe('Fabio')
-        expect(resJson.surname).toBe('Casagrande')
-        expect(resJson.mail).toBe('febo.casa@gmail.com')
-        expect(resJson.role).toBe('student')
-    })
-})
-
-test('POST create a new user with ID', () => {
-    let body = {
+    let invalidUserId = {
         id: 5,
         name: 'Fabio',
         surname: 'Casagrande',
@@ -100,73 +68,93 @@ test('POST create a new user with ID', () => {
         role: 'student'
     }
 
-    expect.assertions(1)
-    return fetch(`${BASE_URL}`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
-    })
-    .then(res => {
-        expect(res.status).toBe(400)
-    })
-})
-
-test('POST create a new user without required parameters', () => {
-    let body = {
+    let invalidUserParameter = {
         name: 'Fabio',
         surname: 'Casagrande',
         role: 'student'
     }
 
-    expect.assertions(1)
-    return fetch(`${BASE_URL}`, {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: { 'Content-Type': 'application/json' }
+    test('POST valid user', () => {
+        return request(app)
+            .post('/api/v1/users')
+            .send(validUser)
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                let id = resBody.id
+                expect(id).toBeGreaterThan(0)
+                return id
+            })
+            .then(id => {
+                return request(app)
+                    .get(`/api/v1/users/${id}`)
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(typeof resBody).toBe('object')
+                expect(resBody.name).toBe('Fabio')
+                expect(resBody.surname).toBe('Casagrande')
+                expect(resBody.mail).toBe('febo.casa@gmail.com')
+                expect(resBody.role).toBe('student')
+            })
     })
-    .then(res => {
-        expect(res.status).toBe(400)
+
+    test('POST invalid user (with ID)', () => {
+        return request(app)
+            .post('/api/v1/users')
+            .send(invalidUserId)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
+
+    test('POST invalid user (without parameters)', () => {
+        return request(app)
+            .post('/api/v1/users')
+            .send(invalidUserParameter)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
     })
 })
 
-test('DELETE an user with valid ID', () => {
-    expect.assertions(4)
-    return fetch(`${BASE_URL}/1`, {
-        method: 'DELETE'
+describe('DELETE /users', () => {
+    test('DELETE a valid user', () => {
+        return request(app)
+            .delete('/api/v1/users/1')
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/users')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(resBody).toHaveLength(3)
+                expect(resBody[0].id).toBe(2)
+            })
     })
-    .then(res => {
-        expect(res.status).toBe(200)
-        return fetch(`${BASE_URL}`)
-    })
-    .then(res => {
-        expect(res.status).toBe(200)
-        return res.json()
-    })
-    .then(resJson => {
-        expect(resJson).toHaveLength(3)
-        expect(resJson[0].id).toBe(2)
-    })
-})
 
-
-
-test('DELETE an user with non-existent ID', () => {
-    expect.assertions(1)
-    return fetch(`${BASE_URL}/0`, {
-        method: 'DELETE'
+    test('DELETE a non-existent ID', () => {
+        return request(app)
+            .delete('/api/v1/users/0')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
     })
-    .then(res => {
-        expect(res.status).toBe(404)
-    })
-        
-})
 
-test('DELETE an user with a string path parameter', () => {
-    expect.assertions(1)
-    return fetch(`${BASE_URL}/fabio`, {
-        method: 'DELETE'
-    })
-    .then(res => {
-        expect(res.status).toBe(400)
+    test('DELETE a non-valid ID', () => {
+        return request(app)
+            .delete('/api/v1/users/fabio')
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
     })
 })
