@@ -433,6 +433,45 @@ test('Try to modify an exam name correctly', () => {
 
 })
 
+test('Try to modify exam name with an object', () => {
+
+    const body = {
+        name: [12, 13],
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
+
+})
+
+test('Try to modify exam with no name', () => {
+
+    const body = {
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
+
+})
+
 test('Try to modify exercises related to the exam correctly', () => {
 
     const body = {
