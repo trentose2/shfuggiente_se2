@@ -442,7 +442,7 @@ test('Try to modify exam name with an object', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -461,7 +461,7 @@ test('Try to modify exam with no name', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -532,7 +532,7 @@ test('Try to modify exam exercises with a non array', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -552,7 +552,7 @@ test('Try to modify exam exercises with a non int array', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -571,7 +571,7 @@ test('Try to modify exam with no exercises', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -642,7 +642,7 @@ test('Try to modify exam groups with a non array', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -662,7 +662,7 @@ test('Try to modify exam groups with a non int array', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -681,7 +681,7 @@ test('Try to modify exam with no groups', () => {
         deadline: '2019-07-21T17:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -752,7 +752,7 @@ test('Try to modify exam deadline with a non valid value', () => {
         deadline: '2019-07-217:32:28.000Z'
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -771,7 +771,7 @@ test('Try to modify exam with no deadline', () => {
         groups: [13, 15, 17],
     }
     expect.assertions(1)
-    return fetch(BASE_URL, {
+    return fetch(BASE_URL + '/2', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -780,6 +780,18 @@ test('Try to modify exam with no deadline', () => {
             expect(res.status).toBe(400)
         })
 
+})
+
+test('Try to modify an exam with non int id', () => {
+
+    return fetch(BASE_URL + '/notavalidid', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
 })
 
 afterAll(() => {
