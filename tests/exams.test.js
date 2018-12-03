@@ -2,24 +2,24 @@ const fetch = require('node-fetch')
 const server = require('../index').server
 const PORT = require('../index').PORT
 
-let BASE_URL = `http://localhost:${PORT}/api/v1/exams` 
+let BASE_URL = `http://localhost:${PORT}/api/v1/exams`
 
 test('Create a valid Exam with exercises and groups', () => {
 
     const body = {
         author_id: 3,
         name: "Software Engineering II - 15/11/2018",
-        exercises: [43,87,62,87,98],
+        exercises: [43, 87, 62, 87, 98],
         groups: [13, 15, 17],
         deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(10)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
-        })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
         .then(res => {
             expect(res.status).toBe(200)
             return res.json()
@@ -33,13 +33,13 @@ test('Create a valid Exam with exercises and groups', () => {
         })
         .then(res => {
             expect(res.status).toBe(200)
-			return res.json()
+            return res.json()
         })
         .then(response_body => {
             expect(response_body.author_id).toBe(body.author_id);
             expect(response_body.name).toBe(body.name)
             //check if exercises is equal to the one provided
-            expect(response_body.exercises > body.exercises).toBe(false) 
+            expect(response_body.exercises > body.exercises).toBe(false)
             expect(response_body.exercises < body.exercises).toBe(false)
             //check if groups is equal to the one provided
             expect(response_body.groups > body.groups).toBe(false)
@@ -54,16 +54,16 @@ test('Create a valid Exam with fewer informations', () => {
     const body = {
         author_id: 3,
         name: "Software Engineering II - 15/11/2018",
-        exercises: [43,87,62,87,98],
+        exercises: [43, 87, 62, 87, 98],
         deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(9)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
-        })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
         .then(res => {
             expect(res.status).toBe(200)
             return res.json()
@@ -77,7 +77,7 @@ test('Create a valid Exam with fewer informations', () => {
         })
         .then(res => {
             expect(res.status).toBe(200)
-			return res.json()
+            return res.json()
         })
         .then(response_body => {
             expect(response_body.author_id).toBe(body.author_id);
@@ -102,13 +102,13 @@ test('Create exam with invalid (negative) author id', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not int) author id', () => {
@@ -121,13 +121,13 @@ test('Create exam with invalid (not int) author id', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (object) name', () => {
@@ -140,13 +140,13 @@ test('Create exam with invalid (object) name', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not date-time) deadline', () => {
@@ -159,13 +159,13 @@ test('Create exam with invalid (not date-time) deadline', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not int) execises', () => {
@@ -179,13 +179,13 @@ test('Create exam with invalid (not int) execises', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not intArray) execises', () => {
@@ -199,13 +199,13 @@ test('Create exam with invalid (not intArray) execises', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (negative) execises', () => {
@@ -219,13 +219,13 @@ test('Create exam with invalid (negative) execises', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not int) groups', () => {
@@ -239,13 +239,13 @@ test('Create exam with invalid (not int) groups', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (not intArray) groups', () => {
@@ -259,13 +259,13 @@ test('Create exam with invalid (not intArray) groups', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with invalid (negative) groups', () => {
@@ -279,13 +279,13 @@ test('Create exam with invalid (negative) groups', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with too few arguments', () => {
@@ -297,13 +297,13 @@ test('Create exam with too few arguments', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('Create exam with too many/ wrong arguments', () => {
@@ -312,76 +312,76 @@ test('Create exam with too many/ wrong arguments', () => {
         id: 3,
         author_id: 3,
         name: "Software Engineering II - 15/11/2018",
-        exercises: [43,87,62,87,98],
+        exercises: [43, 87, 62, 87, 98],
         groups: [13, 15, 17],
         deadline: '2019-07-21T17:32:28.000Z'
     }
 
     expect.assertions(1)
     return fetch(BASE_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'}, 
-                body: JSON.stringify(body)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
     })
-    .then(res => {
-        expect(res.status).toBe(400) //bad request
-    })
+        .then(res => {
+            expect(res.status).toBe(400) //bad request
+        })
 })
 
 test('try to reach an existing exam', () => {
-    
+
     const body = {
         id: 2,
         author_id: 3,
         name: "Software Engineering II - 15/11/2018",
-        exercises: [43,87,62,87,98],
+        exercises: [43, 87, 62, 87, 98],
         groups: [13, 15, 17],
         deadline: '2019-07-21T17:32:28.000Z'
     }
 
     return fetch(BASE_URL + "/" + body.id)
-    .then(res => {
-        expect(res.status).toBe(200)
-        return res.json()
-    })
-    .then(response_body => {
-        expect(response_body.author_id).toBe(body.author_id);
-        expect(response_body.name).toBe(body.name)
-        expect(response_body.exercises > body.exercises).toBe(false)
-        expect(response_body.exercises < body.exercises).toBe(false)
-        expect(response_body.groups > body.groups).toBe(false)
-        expect(response_body.groups < body.groups).toBe(false)
-        expect(response_body.deadline).toBe(body.deadline)
-    })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.author_id).toBe(body.author_id);
+            expect(response_body.name).toBe(body.name)
+            expect(response_body.exercises > body.exercises).toBe(false)
+            expect(response_body.exercises < body.exercises).toBe(false)
+            expect(response_body.groups > body.groups).toBe(false)
+            expect(response_body.groups < body.groups).toBe(false)
+            expect(response_body.deadline).toBe(body.deadline)
+        })
 })
 
 test('Try to reach a non existing exam', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL + '/18')
-    .then( res => {
-        expect(res.status).toBe(404)
-    })
+        .then(res => {
+            expect(res.status).toBe(404)
+        })
 })
 
 test('Try to reach an exam with negative id', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL + '/-3')
-    .then( res => {
-        expect(res.status).toBe(400)
-    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
 })
 
 test('Try to reach an exam with non int id', () => {
 
     expect.assertions(1)
     return fetch(BASE_URL + '/notanint')
-    .then( res => {
-        expect(res.status).toBe(400)
-    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
 })
 
 afterAll(() => {
-	server.close()
+    server.close()
 })
