@@ -382,6 +382,159 @@ test('Try to reach an exam with non int id', () => {
         })
 })
 
+test('Try to modify an exam name correctly', () => {
+
+    const body = {
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    const body_mod = {
+        name: "Not the name before",
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    expect.assertions(8)
+    return fetch(BASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json().id
+        })
+        .then(id => {
+            return fetch(BASE_URL + '/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+        })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.name).toBe(body.name)
+            //check if exercises is equal to the one provided
+            expect(response_body.exercises > body.exercises).toBe(false)
+            expect(response_body.exercises < body.exercises).toBe(false)
+            //check if groups is equal to the one provided
+            expect(response_body.groups > body.groups).toBe(false)
+            expect(response_body.groups < body.groups).toBe(false)
+            expect(response_body.deadline).toBe(body.deadline)
+        })
+
+})
+
+test('Try to modify exercises related to the exam correctly', () => {
+
+    const body = {
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    const body_mod = {
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, 62, 87, 998],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    expect.assertions(8)
+    return fetch(BASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json().id
+        })
+        .then(id => {
+            return fetch(BASE_URL + '/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+        })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.name).toBe(body.name)
+            //check if exercises is equal to the one provided
+            expect(response_body.exercises > body.exercises).toBe(false)
+            expect(response_body.exercises < body.exercises).toBe(false)
+            //check if groups is equal to the one provided
+            expect(response_body.groups > body.groups).toBe(false)
+            expect(response_body.groups < body.groups).toBe(false)
+            expect(response_body.deadline).toBe(body.deadline)
+        })
+
+})
+
+test('Try to modify groups related to the exam correctly', () => {
+
+    const body = {
+        author_id: 3,
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    const body_mod = {
+        name: "Software Engineering II - 15/11/2018",
+        exercises: [43, 87, 62, 87, 98],
+        groups: [13, 15, 177],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+
+    expect.assertions(8)
+    return fetch(BASE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json().id
+        })
+        .then(id => {
+            return fetch(BASE_URL + '/' + id, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            })
+        })
+        .then(res => {
+            expect(res.status).toBe(200)
+            return res.json()
+        })
+        .then(response_body => {
+            expect(response_body.name).toBe(body.name)
+            //check if exercises is equal to the one provided
+            expect(response_body.exercises > body.exercises).toBe(false)
+            expect(response_body.exercises < body.exercises).toBe(false)
+            //check if groups is equal to the one provided
+            expect(response_body.groups > body.groups).toBe(false)
+            expect(response_body.groups < body.groups).toBe(false)
+            expect(response_body.deadline).toBe(body.deadline)
+        })
+
+})
+
 afterAll(() => {
     server.close()
 })
