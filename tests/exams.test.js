@@ -633,6 +633,65 @@ test('Try to modify groups related to the exam correctly', () => {
 
 })
 
+test('Try to modify exam groups with a non array', () => {
+
+    const body = {
+        name: "Software Engineering II - 15/11/2018",
+        exercises: 'definitelynotanarray',
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
+
+})
+
+test('Try to modify exam groups with a non int array', () => {
+
+    const body = {
+        name: "Software Engineering II - 15/11/2018",
+        exercises: ['43', '87', '62', '87', '998'],
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
+
+})
+
+test('Try to modify exam with no groups', () => {
+
+    const body = {
+        name: "Software Engineering II - 15/11/2018",
+        groups: [13, 15, 17],
+        deadline: '2019-07-21T17:32:28.000Z'
+    }
+    expect.assertions(1)
+    return fetch(BASE_URL, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+    })
+        .then(res => {
+            expect(res.status).toBe(400)
+        })
+
+})
+
 afterAll(() => {
     server.close()
 })
