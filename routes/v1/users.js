@@ -51,7 +51,7 @@ router.get('/users', (req, res) => {
 router.post('/users', (req, res) => {
     let user = req.body
     if(user.id === undefined) {
-        if(user.name !== undefined && user.surname !== undefined && user.mail !== undefined && user.role !== undefined) {
+        if(typeof user.name === 'string' && typeof user.surname === 'string' && typeof user.mail === 'string' && typeof user.role === 'string') {
             let id = users.length + 1
             let correctUser = {
                 id: id,
@@ -65,7 +65,7 @@ router.post('/users', (req, res) => {
                 id: id
             })
         } else {
-            res.status(400).send('Missing parameters in user creation')
+            res.status(400).send('Missing or wrong parameters in user creation')
         }
     } else {
         res.status(400).send('Forbidden to specify user id during creation')
