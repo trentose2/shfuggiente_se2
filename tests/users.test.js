@@ -282,3 +282,33 @@ describe('PUT /users', () => {
             })
     })
 })
+
+describe('GET users\' submissions', () => {
+    test('GET a valid IDs submissions', () => {
+        return request(app)
+            .get('/api/v1/users/1/submissions')
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(resBody.submissions).toHaveLength(2)
+            })
+    })
+
+    test('GET a non-existent IDs submissions', () => {
+        return request(app)
+            .get('/api/v1/users/3/submissions')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('GET a non-valid IDs submissions', () => {
+        return request(app)
+            .get('/api/v1/users/io/submissions')
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+})
