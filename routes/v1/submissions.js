@@ -34,5 +34,20 @@ router.get('/submissions/:id', (req, res) => {
     }
 })
 
+router.delete('/submissions/:id',function(req,res){
+  let id = parseInt(req.params.id)
+  let submissionsMatching = submissionsFactory.filter(elem => {
+      return elem.id === id
+  })
+  if(submissionsMatching.length === 1) {
+    submissionsFactory = submissionsFactory.filter(elem => {
+      return elem.id != id
+    })
+      res.status(200).send({status: "successful"})
+  } else {
+      res.status(404).send('404 - Resource not found')
+  }
+});
+
 
 module.exports = router

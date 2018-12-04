@@ -48,3 +48,39 @@ describe('GET /submissions', () => {
             })
     })
 })
+
+describe('DELETE /submissions', () => {
+    test('DELETE a valid submission', () => {
+        return request(app)
+            .delete('/api/v1/submissions/1')
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/submissions')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(resBody).toHaveLength(3)
+                expect(resBody[0].id).toBe(2)
+            })
+    })
+
+    test('DELETE a non-existent ID', () => {
+        return request(app)
+            .delete('/api/v1/submissions/0')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('DELETE a non-valid ID', () => {
+        return request(app)
+            .delete('/api/v1/submissions/fabio')
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+})
