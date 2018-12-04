@@ -74,6 +74,20 @@ describe('POST /users', () => {
         role: 'student'
     }
 
+    let invalidUserParameterObject = {
+        name: 'Fabio',
+        surname: { 0: 'Casagrande' },
+        mail: 'my@mail.com',
+        role: 'student'
+    }
+
+    let invalidUserParameterArray = {
+        name: ['Fabio'],
+        surname: 'Casagrande',
+        mail: 'my@mail.com',
+        role: 'student'
+    }
+
     test('POST valid user', () => {
         return request(app)
             .post('/api/v1/users')
@@ -117,6 +131,24 @@ describe('POST /users', () => {
         return request(app)
             .post('/api/v1/users')
             .send(invalidUserParameter)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
+
+    test('POST invalid user (passing an object as parameter)', () => {
+        return request(app)
+            .post('/api/v1/users')
+            .send(invalidUserParameterObject)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
+
+    test('POST invalid user (passing an array as parameter)', () => {
+        return request(app)
+            .post('/api/v1/users')
+            .send(invalidUserParameterArray)
             .then((res) => {
                 expect(res.statusCode).toBe(400)
             })
