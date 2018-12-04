@@ -1,7 +1,7 @@
 let express = require('express')
 let router = express.Router()
 
-global.submissionsFactory = [
+global.submissions = [
   {
     id: 1,
     userId: 1,
@@ -22,9 +22,19 @@ global.submissionsFactory = [
   }
 ]
 
+router.get('/submissions', (req, res) => {
+        res.status(200).send(submissions)    
+})
+
 router.get('/submissions/:id', (req, res) => {
     let id = parseInt(req.params.id)
-    let submissionsMatching = submissionsFactory.filter(elem => {
+
+    if(!Number.isInteger(id)) {
+        res.status(400).send()
+        return
+    }
+
+    let submissionsMatching = submissions.filter(elem => {
         return elem.id === id
     })
     if(submissionsMatching.length === 1) {
@@ -34,13 +44,19 @@ router.get('/submissions/:id', (req, res) => {
     }
 })
 
-router.delete('/submissions/:id',function(req,res){
+router.delete('/submissions/:id', (req,res) => {
   let id = parseInt(req.params.id)
-  let submissionsMatching = submissionsFactory.filter(elem => {
+
+  if(!Number.isInteger(id)) {
+    res.status(400).send()
+    return
+}
+
+  let submissionsMatching = submissions.filter(elem => {
       return elem.id === id
   })
   if(submissionsMatching.length === 1) {
-    submissionsFactory = submissionsFactory.filter(elem => {
+    submissions = submissions.filter(elem => {
       return elem.id != id
     })
       res.status(200).send({status: "successful"})
@@ -50,4 +66,4 @@ router.delete('/submissions/:id',function(req,res){
 });
 
 
-module.exports = router
+module.exports.router = router

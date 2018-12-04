@@ -22,13 +22,13 @@ describe('GET /submissions', () => {
             })
             .then(resBody => {
               expect(typeof resBody).toBe('object')
-              expect(resBody).toHaveLength(3)
-              expect(resJson.id).toBe(2)
-              expect(resJson.userId).toBe(1)
-              expect(resJson.examId).toBe(24)
-              expect(Array.isArray(resJson.answers)).toBe(true)
-              expect(resJson.answers < submissionsFactory[2].answers)
-              expect(resJson.answers > submissionsFactory[2].answers)
+              expect(resBody.answers).toHaveLength(3)
+              expect(resBody.id).toBe(2)
+              expect(resBody.userId).toBe(2)
+              expect(resBody.examId).toBe(54)
+              expect(Array.isArray(resBody.answers)).toBe(true)
+              expect(resBody.answers < global.submissions[2].answers)
+              expect(resBody.answers > global.submissions[2].answers)
             })
     })
 
@@ -63,7 +63,7 @@ describe('DELETE /submissions', () => {
                 return res.body
             })
             .then(resBody => {
-                expect(resBody).toHaveLength(3)
+                expect(resBody).toHaveLength(2)
                 expect(resBody[0].id).toBe(2)
             })
     })
