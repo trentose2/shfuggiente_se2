@@ -25,6 +25,25 @@ let users = [
     }
 ]
 
+let submissions = [{
+    id: 1,
+    userId: 1,
+    examId: 54,
+    answers: [ {12: "New answer 1" }, {23: "New answer 2" }, {31: "New answer 3" } ]
+  },
+  {
+    id: 2,
+    userId: 2,
+    examId: 54,
+    answers: [ {12: "New answer 1" }, {23: "New answer 2" }, {31: "New answer 3" } ]
+  },
+  {
+    id: 3,
+    userId: 1,
+    examId: 24,
+    answers: [ {52: "New answer 1" }, {67: "New answer 2" }, {87: "New answer 3" } ]
+}]
+
 router.get('/users', (req, res) => {
     res.status(200).json(users)
 })
@@ -126,6 +145,28 @@ router.put('/users/:id', (req, res) => {
     })
 
     res.status(200).send()
+})
+
+router.get('/users/:id/submissions', (req, res) => {
+    let id = parseInt(req.params.id)
+
+    if(!Number.isInteger(id)) {
+        res.status(400).send('ID is not an integer')
+        return
+    }
+
+    let resultingSubmissions = {submissions: []}
+    submissions.forEach(elem => {
+        if(elem.userId === id)
+            resultingSubmissions.submissions.push(elem.id)
+    })
+
+    if(resultingSubmissions.submissions.length > 0) {
+        res.status(200).send(resultingSubmissions)
+    } else {
+        res.status(404).send('No submissions found')
+    }
+
 })
 
 module.exports.router = router
