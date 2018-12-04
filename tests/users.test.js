@@ -311,4 +311,20 @@ describe('GET users\' submissions', () => {
                 expect(res.status).toBe(400)
             })
     })
+
+    test('GET a non-positive IDs submissions', () => {
+        return request(app)
+            .get('/api/v1/users/-2/submissions')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('GET 0 ID submissions', () => {
+        return request(app)
+            .get('/api/v1/users/0/submissions')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
 })
