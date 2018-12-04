@@ -21,14 +21,14 @@ describe('GET /submissions', () => {
                 return res.body
             })
             .then(resBody => {
-              expect(typeof resBody).toBe('object')
-              expect(resBody.answers).toHaveLength(3)
-              expect(resBody.id).toBe(2)
-              expect(resBody.userId).toBe(2)
-              expect(resBody.examId).toBe(54)
-              expect(Array.isArray(resBody.answers)).toBe(true)
-              expect(resBody.answers < global.submissions[2].answers)
-              expect(resBody.answers > global.submissions[2].answers)
+                expect(typeof resBody).toBe('object')
+                expect(resBody.answers).toHaveLength(3)
+                expect(resBody.id).toBe(2)
+                expect(resBody.userId).toBe(2)
+                expect(resBody.examId).toBe(54)
+                expect(Array.isArray(resBody.answers)).toBe(true)
+                expect(resBody.answers < global.submissions[2].answers)
+                expect(resBody.answers > global.submissions[2].answers)
             })
     })
 
@@ -53,19 +53,19 @@ describe('POST /submissions', () => {
     let validSubmission = {
         userId: 5,
         examId: 23,
-        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+        answers: [{ 11: "New answer 1" }, { 45: "New answer 2" }, { 12: "New answer 3" }]
     }
 
     let invalidSubmissionId = {
         id: 1,
         userId: 5,
         examId: 23,
-        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+        answers: [{ 11: "New answer 1" }, { 45: "New answer 2" }, { 12: "New answer 3" }]
     }
 
     let invalidSubmissionParameter = {
         userId: 5,
-        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+        answers: [{ 11: "New answer 1" }, { 45: "New answer 2" }, { 12: "New answer 3" }]
     }
 
     test('POST valid submission', () => {

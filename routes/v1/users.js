@@ -15,7 +15,7 @@ let users = [
         surname: 'Digiacomo',
         mail: 'giandigia@email.com',
         role: 'student'
-    }, 
+    },
     {
         id: 3,
         name: 'Andrea',
@@ -31,8 +31,8 @@ router.get('/users', (req, res) => {
 
 router.post('/users', (req, res) => {
     let user = req.body
-    if(user.id === undefined) {
-        if(user.name !== undefined && user.surname !== undefined && user.mail !== undefined && user.role !== undefined) {
+    if (user.id === undefined) {
+        if (user.name !== undefined && user.surname !== undefined && user.mail !== undefined && user.role !== undefined) {
             let id = users.length + 1
             let correctUser = {
                 id: id,
@@ -56,7 +56,7 @@ router.post('/users', (req, res) => {
 router.get('/users/:id', (req, res) => {
     let id = parseInt(req.params.id)
 
-    if(!Number.isInteger(id)) {
+    if (!Number.isInteger(id)) {
         res.status(400).send()
         return
     }
@@ -64,7 +64,7 @@ router.get('/users/:id', (req, res) => {
     let usersMatching = users.filter(elem => {
         return elem.id === id
     })
-    if(usersMatching.length === 1) {
+    if (usersMatching.length === 1) {
         res.status(200).send(usersMatching[0])
     } else {
         res.status(404).send('404 - Resource not found')
@@ -74,7 +74,7 @@ router.get('/users/:id', (req, res) => {
 router.delete('/users/:id', (req, res) => {
     let id = parseInt(req.params.id)
 
-    if(!Number.isInteger(id)) {
+    if (!Number.isInteger(id)) {
         res.status(400).send('ID is not an integer')
         return
     }
@@ -83,7 +83,7 @@ router.delete('/users/:id', (req, res) => {
         return el.id !== id
     })
 
-    if(resultingUsers.length === (users.length - 1)) {
+    if (resultingUsers.length === (users.length - 1)) {
         users = resultingUsers
         res.status(200).send()
     } else {
@@ -95,7 +95,7 @@ router.put('/users/:id', (req, res) => {
     let id = parseInt(req.params.id)
     let user = req.body
 
-    if(!Number.isInteger(id)) {
+    if (!Number.isInteger(id)) {
         res.status(400).send('ID is not an integer')
         return
     }
@@ -108,18 +108,18 @@ router.put('/users/:id', (req, res) => {
 
     console.log(usersMatching)
 
-    if(usersMatching.length !== 1) {
+    if (usersMatching.length !== 1) {
         res.status(404).send('Resource not found')
         return
     }
 
-    if(user.id || user.name || user.surname) {
+    if (user.id || user.name || user.surname) {
         res.status(403).send('Unauthorized to modify ID or name or surname')
         return
     }
 
     users.forEach((elem, i) => {
-        if(elem.id === id) {
+        if (elem.id === id) {
             users[i].mail = user.mail || users[i].mail
             users[i].role = user.role || users[i].role
         }
