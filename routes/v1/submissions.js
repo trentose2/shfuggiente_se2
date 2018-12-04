@@ -44,6 +44,32 @@ router.get('/submissions/:id', (req, res) => {
     }
 })
 
+router.post('/submissions', (req, res) => {
+    let submission = req.body
+    if(submission.id === undefined) {
+        if(submission.userId !== undefined && submission.examId !== undefined && submission.answers !== undefined) {
+            let id = submissions.length + 1
+            let correctSubmission = {
+                id: id,
+                userId: submission.userId,
+                examId: submission.examId,
+                answers: submission.answers
+            }
+            submissions.push(correctSubmission)
+            res.status(200).send({
+                id: id,
+                userId: submission.userId,
+                examId: submission.examId,
+                answers: submission.answers
+            })
+        } else {
+            res.status(400).send('Missing parameters in submission creation')
+        }
+    } else {
+        res.status(400).send('Forbidden to specify submission id during creation')
+    }
+})
+
 router.delete('/submissions/:id', (req,res) => {
   let id = parseInt(req.params.id)
 

@@ -49,6 +49,75 @@ describe('GET /submissions', () => {
     })
 })
 
+describe('POST /submissions', () => {
+    let validSubmission = {
+        userId: 5,
+        examId: 23,
+        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+    }
+
+    let invalidSubmissionId = {
+        id: 1,
+        userId: 5,
+        examId: 23,
+        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+    }
+
+    let invalidSubmissionParameter = {
+        userId: 5,
+        answers: [ {11: "New answer 1" }, {45: "New answer 2" }, {12: "New answer 3" } ]
+    }
+
+    test('POST valid submission', () => {
+        return request(app)
+            .post('/api/v1/submissions')
+            .send(validSubmission)
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                let id = resBody.id
+                expect(id).toBeGreaterThan(0)
+                return id
+            })
+            .then(id => {
+                return request(app)
+                    .get(`/api/v1/submissions/${id}`)
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resBody => {
+                expect(typeof resBody).toBe('object')
+                expect(resBody.userId).toBe(5)
+                expect(resBody.examId).toBe(23)
+                expect(Array.isArray(resBody.answers)).toBe(true)
+                expect(resBody.answers < validSubmission.answers)
+                expect(resBody.answers > validSubmission.answers)
+            })
+    })
+
+    test('POST invalid submission (with ID)', () => {
+        return request(app)
+            .post('/api/v1/submissions')
+            .send(invalidSubmissionId)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
+
+    test('POST invalid submission (without parameters)', () => {
+        return request(app)
+            .post('/api/v1/submissions')
+            .send(invalidSubmissionParameter)
+            .then((res) => {
+                expect(res.statusCode).toBe(400)
+            })
+    })
+})
+
 describe('DELETE /submissions', () => {
     test('DELETE a valid submission', () => {
         return request(app)
@@ -63,7 +132,7 @@ describe('DELETE /submissions', () => {
                 return res.body
             })
             .then(resBody => {
-                expect(resBody).toHaveLength(2)
+                expect(resBody).toHaveLength(3)
                 expect(resBody[0].id).toBe(2)
             })
     })
