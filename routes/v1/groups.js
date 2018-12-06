@@ -37,7 +37,17 @@ var groups = [{
 }];
 
 router.get('/groups', (req, res, next) => {
-    res.status(200).send(groups)
+    let groupsList = []
+    groups.forEach(el => {
+        groupsList.push(
+            {
+                "id": el.id,
+                "name": el.name
+            }
+        )
+    }
+    )
+    res.status(200).send(groupsList)
 })
 
 router.get('/groups/:id', (req, res, next) => {
@@ -52,4 +62,4 @@ router.get('/groups/:id', (req, res, next) => {
     }
 })
 
-module.exports = router
+module.exports.router = router  
