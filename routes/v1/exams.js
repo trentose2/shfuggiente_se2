@@ -135,9 +135,9 @@ router.put('/exams/:id', (req, res) => {
     })
     if (examsMatching.length < 1)
         return res.status(404).send('404 - Resource not found')
-    if (examsMatching.length > 1) {
+    /*if (examsMatching.length > 1) {
         return res.status(404).send('500 - Server error')
-    } else {
+    }*/ else {
 
         // doing same chaecks as POST - /exams
         if (Object.keys(req.body).length < 4)
@@ -191,7 +191,7 @@ router.put('/exams/:id', (req, res) => {
             }
         })*/
 
-        return res.status(200)
+        return res.status(200).send("200 - modified successfully")
 
     }
 
