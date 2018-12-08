@@ -197,4 +197,29 @@ router.put('/exams/:id', (req, res) => {
 
 })
 
+router.delete('/exams/:id', (req, res) => {
+    //Checking id 
+    let id = parseInt(req.params.id)
+    if (isNaN(id))
+        return res.status(400).send('400 - Bad request (non integer id)')
+    if (id < 0)
+        return res.status(400).send('400 - Bad request (negative id)')
+
+    let examsMatching = exams.filter(elem => {
+        return elem.id === id
+    })
+    if (examsMatching.length < 1)
+        return res.status(404).send('404 - Resource not found')
+
+    let pos = 0, count = 0
+    exams.forEach(elem => {
+        if (elem.id === id)
+            pos = count
+        count++
+    })
+    exams.splice(pos, 1)
+    return res.status(200).send("Deleted successfully")
+
+})
+
 module.exports.router = router

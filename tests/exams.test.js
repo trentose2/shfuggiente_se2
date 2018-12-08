@@ -892,3 +892,65 @@ describe('PUT /exams/:id', () => {
 
     })
 })
+describe('DELETE /exams', () => {
+    test('Try to delete an exam successfully', () => {
+        const body = {
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+
+        let given_id = 0
+
+        return request(app)
+            .post(BASE_URL)
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body.id
+            })
+            .then(id => {
+                given_id = id
+                return request(app)
+                    .delete(BASE_URL + `/${given_id}`)
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get(BASE_URL + `/${given_id}`)
+            })
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('Try to delete a non existing exam', () => {
+
+        return request(app)
+            .delete(BASE_URL + `/15`)
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('Try to delete an exam with non int id', () => {
+
+        return request(app)
+            .delete(BASE_URL + `/ciao`)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+    test('Try to delete an exam with non positive id', () => {
+
+        return request(app)
+            .delete(BASE_URL + `/-3`)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+})
