@@ -284,61 +284,65 @@ describe('POST /exams', () => {
                 expect(res.status).toBe(400) //bad request
             })
     })
-})/*
-test('try to reach an existing exam', () => {
-
-    const body = {
-        id: 2,
-        author_id: 3,
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    return fetch(BASE_URL + "/" + body.id)
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(response_body => {
-            expect(response_body.author_id).toBe(body.author_id);
-            expect(response_body.name).toBe(body.name)
-            expect(response_body.exercises > body.exercises).toBe(false)
-            expect(response_body.exercises < body.exercises).toBe(false)
-            expect(response_body.groups > body.groups).toBe(false)
-            expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe(body.deadline)
-        })
 })
 
-test('Try to reach a non existing exam', () => {
+describe('GET /exams/:id', () => {
+    test('try to reach an existing exam', () => {
 
-    expect.assertions(1)
-    return fetch(BASE_URL + '/18')
-        .then(res => {
-            expect(res.status).toBe(404)
-        })
+        const body = { //this entity already exists in the ""db""
+            id: 2,
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+
+        return request(app)
+            .get(BASE_URL + "/" + body.id)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(response_body => {
+                expect(response_body.author_id).toBe(body.author_id);
+                expect(response_body.name).toBe(body.name)
+                expect(response_body.exercises > body.exercises).toBe(false)
+                expect(response_body.exercises < body.exercises).toBe(false)
+                expect(response_body.groups > body.groups).toBe(false)
+                expect(response_body.groups < body.groups).toBe(false)
+                expect(response_body.deadline).toBe(body.deadline)
+            })
+    })
+
+    test('Try to reach a non existing exam', () => {
+
+        return request(app)
+            .get(BASE_URL + '/18')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('Try to reach an exam with negative id', () => {
+
+        return request(app)
+            .get(BASE_URL + '/-3')
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+    test('Try to reach an exam with non int id', () => {
+
+        return request(app)
+            .get(BASE_URL + '/notanint')
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
 })
-
-test('Try to reach an exam with negative id', () => {
-
-    expect.assertions(1)
-    return fetch(BASE_URL + '/-3')
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-})
-
-test('Try to reach an exam with non int id', () => {
-
-    expect.assertions(1)
-    return fetch(BASE_URL + '/notanint')
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-})
-
+/*
 test('Try to modify an exam name correctly', () => {
 
     const body = {
