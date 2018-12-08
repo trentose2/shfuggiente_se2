@@ -21,15 +21,26 @@ router.post('/exams', (req, res) => {
     if (Object.keys(req.body).length > 5)
         return res.status(400).send("400 - Too many exam arguments")
 
+    Object.keys(req.body).forEach(key => {
+        if (key != "author_id" &&
+            key != "name" &&
+            key != "exercises" &&
+            key != "groups" &&
+            key != "deadline")
+            return res.status(400).send(`400 - Wrong param ${key}`)
+    })
+
     //check author id validity (integer >= 0)
     let author_id = parseInt(req.body.author_id)
     if (isNaN(author_id))
-        return res.status(400).send("400 - Bad author_id parameter (NaN) o absent")
+        return res.status(400).send("400 - Bad author_id parameter (NaN) or absent")
     if (author_id < 0)
         return res.status(400).send("400 - Bad author_id parameter (negative)")
 
     //check name validity (numbers and characters are allowed, objects are not)    
     let name = req.body.name
+    if (name == undefined)
+        return res.status(400).send("No name in body")
     if (typeof name === "object" || name instanceof Object)
         return res.status(400).send("400 - Bad name, object are not allowed")
 
@@ -64,6 +75,8 @@ router.post('/exams', (req, res) => {
     }
 
     //check date-time validity
+    if (req.body.deadline == undefined)
+        return res.status(400).send("400 - No deadline given")
     if (req.body.deadline.length != 24 || isNaN(Date.parse(req.body.deadline))) // controllo la lunghezza della stringa date-time e che sia convertibile in una data
         return res.status(400).send("400 - Bad date format")
     let deadline = new Date(req.body.deadline)
@@ -110,12 +123,7 @@ router.get('/exams/:id', (req, res) => {
 
 router.put('/exams/:id', (req, res) => {
 
-    console.log(id)
-    console.log(req.name)
-    console.log(req.exams)
-    console.log(req.groups)
-    console.log(req.deadline)
-
+    //Checking id 
     let id = parseInt(req.params.id)
     if (isNaN(id))
         return res.status(400).send('400 - Bad request (non integer id)')
@@ -125,8 +133,10 @@ router.put('/exams/:id', (req, res) => {
     let examsMatching = exams.filter(elem => {
         return elem.id === id
     })
-    if (examsMatching.length !== 1) {
+    if (examsMatching.length < 1)
         return res.status(404).send('404 - Resource not found')
+    if (examsMatching.length > 1) {
+        return res.status(404).send('500 - Server error')
     } else {
 
         // doing same chaecks as POST - /exams
@@ -135,50 +145,51 @@ router.put('/exams/:id', (req, res) => {
         if (Object.keys(req.body).length > 4)
             return res.status(400).send("400 - Too many exam arguments")
 
+        Object.keys(req.body).forEach(key => {
+            if (key != "name" &&
+                key != "exercises" &&
+                key != "groups" &&
+                key != "deadline")
+                return res.status(400).send(`400 - Wrong param ${key}`)
+        })
+
         let name = req.body.name
         if (typeof name === "object" || name instanceof Object)
             return res.status(400).send("400 - Bad name, object are not allowed")
 
         let exercises = req.body.exercises
-        if (exercises == undefined)
-            return res.status(400).send("400 - No exercises in body")
-        else {
-            if (exercises.constructor !== Array)
-                return res.status(400).send("400 - Bad exercises, not an array")
-            exercises.forEach(element => {
-                if (!Number.isInteger(element))
-                    return res.status(400).send("400 - Bad exercises, not integer id")
-                if (element < 0)
-                    return res.status(400).send("400 - Bad exercises, id lower than 0")
-            });
-        }
+        if (exercises.constructor !== Array)
+            return res.status(400).send("400 - Bad exercises, not an array")
+        exercises.forEach(element => {
+            if (!Number.isInteger(element))
+                return res.status(400).send("400 - Bad exercises, not integer id")
+            if (element < 0)
+                return res.status(400).send("400 - Bad exercises, id lower than 0")
+        });
+
 
         let groups = req.body.groups
-        if (groups == undefined)
-            return res.status(400).send("400 - No groups in body")
-        else {
-            if (groups.constructor !== Array)
-                return res.status(400).send("400 - Bad groups, not an array")
-            groups.forEach(element => {
-                if (!Number.isInteger(element))
-                    return res.status(400).send("400 - Bad groups, not integer id")
-                if (element < 0)
-                    return res.status(400).send("400 - Bad groups, id lower than 0")
-            });
-        }
+        if (groups.constructor !== Array)
+            return res.status(400).send("400 - Bad groups, not an array")
+        groups.forEach(element => {
+            if (!Number.isInteger(element))
+                return res.status(400).send("400 - Bad groups, not integer id")
+            if (element < 0)
+                return res.status(400).send("400 - Bad groups, id lower than 0")
+        });
 
         if (req.body.deadline.length != 24 || isNaN(Date.parse(req.body.deadline))) // controllo la lunghezza della stringa date-time e che sia convertibile in una data
             return res.status(400).send("400 - Bad date format")
         let deadline = new Date(req.body.deadline)
 
-        exams.forEach(elem => {
-            if (elem.id == id) {
+        /*exams.forEach(elem => {
+            if (elem.id === id) {
                 elem.name = req.name
                 elem.exercises = req.exercises
                 elem.groups = req.groups
                 elem.deadline = req.deadline
             }
-        })
+        })*/
 
         return res.status(200)
 

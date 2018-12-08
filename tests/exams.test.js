@@ -266,13 +266,31 @@ describe('POST /exams', () => {
             })
     })
 
-    test('Create exam with too many/ wrong arguments', () => {
+    test('Create exam with too many arguments', () => {
 
         const body = {
             id: 3,
             author_id: 3,
             name: "Software Engineering II - 15/11/2018",
             exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+
+        return request(app)
+            .post(BASE_URL)
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400) //bad request
+            })
+    })
+
+    test('Create exam with right number of params but wrong arguments', () => {
+
+        const body = {
+            id: 3,
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
             groups: [13, 15, 17],
             deadline: '2019-07-21T17:32:28.000Z'
         }
@@ -342,419 +360,417 @@ describe('GET /exams/:id', () => {
             })
     })
 })
+
+describe('PUT /exams/:id', () => {
 /*
-test('Try to modify an exam name correctly', () => {
+    test('Try to modify an exam name correctly', () => {
 
-    const body = {
-        author_id: 3,
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
+        const body = {
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
 
-    const body_mod = {
-        name: "Not the name before",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
+        const body_mod = {
+            name: "Not the name before",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
 
-    expect.assertions(8)
-    return fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json().id
-        })
-        .then(id => {
-            return fetch(BASE_URL + '/' + id, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+        let given_id = 0
+
+        return request(app)
+            .post(BASE_URL)
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body.id
             })
-        })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(response_body => {
-            expect(response_body.name).toBe(body.name)
-            //check if exercises is equal to the one provided
-            expect(response_body.exercises > body.exercises).toBe(false)
-            expect(response_body.exercises < body.exercises).toBe(false)
-            //check if groups is equal to the one provided
-            expect(response_body.groups > body.groups).toBe(false)
-            expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe(body.deadline)
-        })
-
-})
-
-test('Try to modify exam name with an object', () => {
-
-    const body = {
-        name: [12, 13],
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam with no name', () => {
-
-    const body = {
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exercises related to the exam correctly', () => {
-
-    const body = {
-        author_id: 3,
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    const body_mod = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 998],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    expect.assertions(8)
-    return fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json().id
-        })
-        .then(id => {
-            return fetch(BASE_URL + '/' + id, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+            .then(id => {
+                given_id = id
+                return request(app)
+                    .put(BASE_URL + `/${given_id}`)
+                    .send(body_mod)
             })
-        })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(response_body => {
-            expect(response_body.name).toBe(body.name)
-            //check if exercises is equal to the one provided
-            expect(response_body.exercises > body.exercises).toBe(false)
-            expect(response_body.exercises < body.exercises).toBe(false)
-            //check if groups is equal to the one provided
-            expect(response_body.groups > body.groups).toBe(false)
-            expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe(body.deadline)
-        })
-
-})
-
-test('Try to modify exam exercises with a non array', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: 'definitelynotanarray',
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam exercises with a non int array', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: ['43', '87', '62', '87', '998'],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam with no exercises', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify groups related to the exam correctly', () => {
-
-    const body = {
-        author_id: 3,
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    const body_mod = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 177],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    expect.assertions(8)
-    return fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json().id
-        })
-        .then(id => {
-            return fetch(BASE_URL + '/' + id, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return
             })
-        })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(response_body => {
-            expect(response_body.name).toBe(body.name)
-            //check if exercises is equal to the one provided
-            expect(response_body.exercises > body.exercises).toBe(false)
-            expect(response_body.exercises < body.exercises).toBe(false)
-            //check if groups is equal to the one provided
-            expect(response_body.groups > body.groups).toBe(false)
-            expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe(body.deadline)
-        })
-
-})
-
-test('Try to modify exam groups with a non array', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: 'definitelynotanarray',
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam groups with a non int array', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: ['43', '87', '62', '87', '998'],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam with no groups', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
-
-})
-
-test('Try to modify exam deadline', () => {
-
-    const body = {
-        author_id: 3,
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-21T17:32:28.000Z'
-    }
-
-    const body_mod = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2029-07-21T17:32:28.000Z'
-    }
-
-    expect.assertions(8)
-    return fetch(BASE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json().id
-        })
-        .then(id => {
-            return fetch(BASE_URL + '/' + id, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+            .then(() => {
+                return request(app)
+                    .get(BASE_URL + `/${given_id}`)
             })
-        })
-        .then(res => {
-            expect(res.status).toBe(200)
-            return res.json()
-        })
-        .then(response_body => {
-            expect(response_body.name).toBe(body.name)
-            //check if exercises is equal to the one provided
-            expect(response_body.exercises > body.exercises).toBe(false)
-            expect(response_body.exercises < body.exercises).toBe(false)
-            //check if groups is equal to the one provided
-            expect(response_body.groups > body.groups).toBe(false)
-            expect(response_body.groups < body.groups).toBe(false)
-            expect(response_body.deadline).toBe(body.deadline)
-        })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(response_body => {
+                expect(response_body.name).toBe(body.name)
+                //check if exercises is equal to the one provided
+                expect(response_body.exercises > body.exercises).toBe(false)
+                expect(response_body.exercises < body.exercises).toBe(false)
+                //check if groups is equal to the one provided
+                expect(response_body.groups > body.groups).toBe(false)
+                expect(response_body.groups < body.groups).toBe(false)
+                expect(response_body.deadline).toBe(body.deadline)
+            })
 
-})
-
-test('Try to modify exam deadline with a non valid value', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-        deadline: '2019-07-217:32:28.000Z'
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
     })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
+*/
+    test('Try to modify exam name with an object', () => {
 
-})
+        const body = {
+            name: [12, 13],
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + `/2`)
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
 
-test('Try to modify exam with no deadline', () => {
-
-    const body = {
-        name: "Software Engineering II - 15/11/2018",
-        exercises: [43, 87, 62, 87, 98],
-        groups: [13, 15, 17],
-    }
-    expect.assertions(1)
-    return fetch(BASE_URL + '/2', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
     })
-        .then(res => {
-            expect(res.status).toBe(400)
-        })
 
-})
+    test('Try to modify exam with no name', () => {
 
-test('Try to modify an exam with non int id', () => {
+        const body = {
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
 
-    return fetch(BASE_URL + '/notavalidid', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
     })
-        .then(res => {
-            expect(res.status).toBe(400)
+    /*
+    test('Try to modify exercises related to the exam correctly', () => {
+     
+        const body = {
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+     
+        const body_mod = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 998],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+     
+        expect.assertions(8)
+        return fetch(BASE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
         })
-})
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json().id
+            })
+            .then(id => {
+                return fetch(BASE_URL + '/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json()
+            })
+            .then(response_body => {
+                expect(response_body.name).toBe(body.name)
+                //check if exercises is equal to the one provided
+                expect(response_body.exercises > body.exercises).toBe(false)
+                expect(response_body.exercises < body.exercises).toBe(false)
+                //check if groups is equal to the one provided
+                expect(response_body.groups > body.groups).toBe(false)
+                expect(response_body.groups < body.groups).toBe(false)
+                expect(response_body.deadline).toBe(body.deadline)
+            })
+     
+    })
+    */
+    test('Try to modify exam exercises with a non array', () => {
 
-afterAll(() => {
-    server.close()
-})*/
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: 'definitelynotanarray',
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify exam exercises with a non int array', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: ['43', '87', '62', '87', '998'],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify exam with no exercises', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+    /*
+    test('Try to modify groups related to the exam correctly', () => {
+     
+        const body = {
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+     
+        const body_mod = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 177],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+     
+        expect.assertions(8)
+        return fetch(BASE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json().id
+            })
+            .then(id => {
+                return fetch(BASE_URL + '/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json()
+            })
+            .then(response_body => {
+                expect(response_body.name).toBe(body.name)
+                //check if exercises is equal to the one provided
+                expect(response_body.exercises > body.exercises).toBe(false)
+                expect(response_body.exercises < body.exercises).toBe(false)
+                //check if groups is equal to the one provided
+                expect(response_body.groups > body.groups).toBe(false)
+                expect(response_body.groups < body.groups).toBe(false)
+                expect(response_body.deadline).toBe(body.deadline)
+            })
+     
+    })
+    */
+    test('Try to modify exam groups with a non array', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: 'definitelynotanarray',
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify exam groups with a non int array', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: ['43', '87', '62', '87', '998'],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify exam with no groups', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+    /*
+    test('Try to modify exam deadline correctly', () => {
+     
+        const body = {
+            author_id: 3,
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+     
+        const body_mod = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2029-07-21T17:32:28.000Z'
+        }
+     
+        expect.assertions(8)
+        return fetch(BASE_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json().id
+            })
+            .then(id => {
+                return fetch(BASE_URL + '/' + id, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                })
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.json()
+            })
+            .then(response_body => {
+                expect(response_body.name).toBe(body.name)
+                //check if exercises is equal to the one provided
+                expect(response_body.exercises > body.exercises).toBe(false)
+                expect(response_body.exercises < body.exercises).toBe(false)
+                //check if groups is equal to the one provided
+                expect(response_body.groups > body.groups).toBe(false)
+                expect(response_body.groups < body.groups).toBe(false)
+                expect(response_body.deadline).toBe(body.deadline)
+            })
+     
+    })
+    */
+    test('Try to modify exam deadline with a non valid value', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-217:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.text).toBe("400 - Bad date format")
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify exam with no deadline', () => {
+
+        const body = {
+            name: "Software Engineering II - 15/11/2018",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+        }
+        return request(app)
+            .put(BASE_URL + "/2")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+
+    })
+
+    test('Try to modify an exam with non int id', () => {
+
+        const body = {
+            name: "A valid name",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/notanint")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+
+    test('Try to modify a non existing exam', () => {
+
+        const body = {
+            name: "A valid name",
+            exercises: [43, 87, 62, 87, 98],
+            groups: [13, 15, 17],
+            deadline: '2019-07-21T17:32:28.000Z'
+        }
+        return request(app)
+            .put(BASE_URL + "/5")
+            .send(body)
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+
+    })
+})
