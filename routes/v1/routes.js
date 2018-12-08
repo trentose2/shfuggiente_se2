@@ -7,6 +7,7 @@ router.get('/',function(req,res){
 
 router.use('/', require('./users').router)
 router.use('/', require('./submissions').router)
+router.use('/', require('./exams').router)
 
 
 module.exports.router = router

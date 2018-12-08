@@ -65,7 +65,7 @@ router.post('/exams', (req, res) => {
 
     //check date-time validity
     if (req.body.deadline.length != 24 || isNaN(Date.parse(req.body.deadline))) // controllo la lunghezza della stringa date-time e che sia convertibile in una data
-        return res.status(400).send("400 - Bade date format")
+        return res.status(400).send("400 - Bad date format")
     let deadline = new Date(req.body.deadline)
 
     //creating and adding new exam
@@ -89,6 +89,8 @@ router.post('/exams', (req, res) => {
 // /exams/:id endpoint
 router.get('/exams/:id', (req, res) => {
 
+
+
     let id = parseInt(req.params.id)
     if (isNaN(id))
         return res.status(400).send('400 - Bad request (non integer id)')
@@ -108,6 +110,12 @@ router.get('/exams/:id', (req, res) => {
 
 router.put('/exams/:id', (req, res) => {
 
+    console.log(id)
+    console.log(req.name)
+    console.log(req.exams)
+    console.log(req.groups)
+    console.log(req.deadline)
+
     let id = parseInt(req.params.id)
     if (isNaN(id))
         return res.status(400).send('400 - Bad request (non integer id)')
@@ -121,17 +129,11 @@ router.put('/exams/:id', (req, res) => {
         return res.status(404).send('404 - Resource not found')
     } else {
 
-        // doing same chaecks as POST
-        if (Object.keys(req.body).length < 3)
+        // doing same chaecks as POST - /exams
+        if (Object.keys(req.body).length < 4)
             return res.status(400).send("400 - Too few exam arguments")
-        if (Object.keys(req.body).length > 5)
+        if (Object.keys(req.body).length > 4)
             return res.status(400).send("400 - Too many exam arguments")
-
-        let author_id = parseInt(req.body.author_id)
-        if (isNaN(author_id))
-            return res.status(400).send("400 - Bad author_id parameter (NaN) o absent")
-        if (author_id < 0)
-            return res.status(400).send("400 - Bad author_id parameter (negative)")
 
         let name = req.body.name
         if (typeof name === "object" || name instanceof Object)
@@ -139,7 +141,7 @@ router.put('/exams/:id', (req, res) => {
 
         let exercises = req.body.exercises
         if (exercises == undefined)
-            exercises = []
+            return res.status(400).send("400 - No exercises in body")
         else {
             if (exercises.constructor !== Array)
                 return res.status(400).send("400 - Bad exercises, not an array")
@@ -153,7 +155,7 @@ router.put('/exams/:id', (req, res) => {
 
         let groups = req.body.groups
         if (groups == undefined)
-            groups = []
+            return res.status(400).send("400 - No groups in body")
         else {
             if (groups.constructor !== Array)
                 return res.status(400).send("400 - Bad groups, not an array")
@@ -166,22 +168,22 @@ router.put('/exams/:id', (req, res) => {
         }
 
         if (req.body.deadline.length != 24 || isNaN(Date.parse(req.body.deadline))) // controllo la lunghezza della stringa date-time e che sia convertibile in una data
-            return res.status(400).send("400 - Bade date format")
+            return res.status(400).send("400 - Bad date format")
         let deadline = new Date(req.body.deadline)
 
-        exams.filter(elem => {
-            if(elem.id === id){
-                elem.author_id = req.body.author_id
+        exams.forEach(elem => {
+            if (elem.id == id) {
                 elem.name = req.name
-                elem.exercises =  req.exercises
+                elem.exercises = req.exercises
                 elem.groups = req.groups
                 elem.deadline = req.deadline
             }
         })
 
-        return res.status(200).send(examsMatching[0])
+        return res.status(200)
+
     }
 
 })
 
-module.exports = router
+module.exports.router = router
