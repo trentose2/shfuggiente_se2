@@ -1,8 +1,9 @@
-# Inserire nome progetto
+# Exams management
 ## Descrizione
 #### A Node.js API Project for the Software Engineering course
 
 So far it's only a 'Hello World' app
+## The important stuff is on development
 
 # **Shfuggiente**
 
