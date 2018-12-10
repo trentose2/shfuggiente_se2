@@ -134,3 +134,117 @@ describe('PUT /groups', () => {
             })
     })
 })
+
+describe('POST /groups', () => {
+
+    let validGroup = {
+        name: 'Group 4',
+        members: [
+            1,
+            23,
+            45,
+            56
+        ]
+    }
+
+    let invalidData1 = {
+        name: 'Group 5',
+        exams: [
+            5,
+            73,
+            85,
+            96
+        ]
+    }
+
+    let invalidData2 = {
+        id: 23,
+        name: 'Group 5',
+        members: [
+            1,
+            23,
+            45,
+            56
+        ]
+    }
+
+    let invalidData3 = {
+        name: 'Group 5'
+    }
+
+    let emptyData = {
+        name: 'Group 6',
+        members: []
+    }
+
+
+    test('POST valid group', () => {
+        return request(app)
+            .post('/api/v1/groups')
+            .send(validGroup)
+            .then((res) => {
+                expect(res.statusCode).toBe(200)
+                return res.body
+            })
+            .then(resJson => {
+                let id = resJson.id
+                expect(id).toBeGreaterThan(0)
+                return id
+            })
+            .then(id => {
+                return request(app)
+                    .get(`/api/v1/groups/${id}`)
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resJson => {
+                expect(typeof resJson).toBe('object')
+                expect(typeof resJson.name).toBe('string')
+                expect(resJson.name).toBe('Group 4')
+                expect(typeof resJson.members).toBe('object')
+                expect(resJson.members).toEqual(expect.arrayContaining([
+                    1,
+                    23,
+                    45,
+                    56]))
+            })
+    })
+
+    test('POST invalid data1', () => {
+        return request(app)
+            .post('/api/v1/groups')
+            .send(invalidData1)
+            .then((res) => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+    test('POST invalid data2', () => {
+        return request(app)
+            .post('/api/v1/groups')
+            .send(invalidData2)
+            .then((res) => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+    test('POST invalid data3', () => {
+        return request(app)
+            .post('/api/v1/groups')
+            .send(invalidData3)
+            .then((res) => {
+                expect(res.status).toBe(403)
+            })
+    })
+
+    test('PUT empty data', () => {
+        return request(app)
+            .post('/api/v1/groups')
+            .send(emptyData)
+            .then((res) => {
+                expect(res.status).toBe(403)
+            })
+    })
+})

@@ -119,4 +119,36 @@ router.put('/groups/:id', (req, res) => {
 
 })
 
+router.post('/groups', (req, res) => {
+    let group = req.body
+
+    if (group.id !== undefined) {
+        res.status(400).send('Unauthorized to specify group ID')
+        return
+    }
+
+    if (group.exams !== undefined) {
+        res.status(400).send('Unauthorized to add an exam to the group')
+        return
+    }
+
+    if (group.members === undefined || group.members.length === 0) {
+        res.status(403).send('groups must have members')
+        return
+    }
+
+    let id = groups.length + 1
+    let newGroup = {
+        id: id,
+        name: group.name,
+        members: group.members
+    }
+
+    groups.push(newGroup)
+    res.status(200).send({
+        status: 'sucessful',
+        id: id
+    })
+})
+
 module.exports.router = router  
