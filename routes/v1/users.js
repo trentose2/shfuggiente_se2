@@ -100,13 +100,9 @@ router.put('/users/:id', (req, res) => {
         return
     }
 
-    console.log(id)
-
     let usersMatching = users.filter(elem => {
         return elem.id === id
     })
-
-    console.log(usersMatching)
 
     if (usersMatching.length !== 1) {
         res.status(404).send('Resource not found')
