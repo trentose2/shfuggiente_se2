@@ -58,3 +58,79 @@ describe('GET /groups', () => {
     })
 
 })
+
+describe('PUT /groups', () => {
+
+    let validGroup = {
+        name: 'Group 3'
+    }
+
+    let invalidData = {
+        members: [
+            1,
+            23,
+            45,
+            56
+        ]
+    }
+
+    let emptyData = {
+        name: ''
+    }
+
+
+    test('PUT valid group', () => {
+        return request(app)
+            .put('/api/v1/groups/3')
+            .send(validGroup)
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/groups/3')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resJson => {
+                expect(resJson.id).toBe(3)
+                expect(resJson.name).toBe('Group 3')
+            })
+    })
+
+    test('PUT non-existent group', () => {
+        return request(app)
+            .put('/api/v1/groups/5')
+            .send(validGroup)
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('PUT non-valid ID', () => {
+        return request(app)
+            .put('/api/v1/groups/members')
+            .send(validGroup)
+            .then(res => {
+                expect(res.status).toBe(400)
+            })
+    })
+
+    test('PUT invalid data', () => {
+        return request(app)
+            .put('/api/v1/groups/3')
+            .send(invalidData)
+            .then((res) => {
+                expect(res.status).toBe(403)
+            })
+    })
+
+    test('PUT empty data', () => {
+        return request(app)
+            .put('/api/v1/groups/3')
+            .send(emptyData)
+            .then((res) => {
+                expect(res.status).toBe(400)
+            })
+    })
+})
