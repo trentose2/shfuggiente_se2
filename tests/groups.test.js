@@ -239,12 +239,48 @@ describe('POST /groups', () => {
             })
     })
 
-    test('PUT empty data', () => {
+    test('POST empty data', () => {
         return request(app)
             .post('/api/v1/groups')
             .send(emptyData)
             .then((res) => {
                 expect(res.status).toBe(403)
+            })
+    })
+})
+
+describe('DELETE /groups', () => {
+    test('DELETE a valid group', () => {
+        return request(app)
+            .delete('/api/v1/groups/2')
+            .then(res => {
+                expect(res.status).toBe(200)
+                return request(app)
+                    .get('/api/v1/groups')
+            })
+            .then(res => {
+                expect(res.status).toBe(200)
+                return res.body
+            })
+            .then(resJson => {
+                expect(resJson).toHaveLength(3)
+                expect(resJson[1].id).toBe(3)
+            })
+    })
+
+    test('DELETE non-existent ID', () => {
+        return request(app)
+            .delete('/api/v1/groups/7')
+            .then(res => {
+                expect(res.status).toBe(404)
+            })
+    })
+
+    test('DELETE non-valid ID', () => {
+        return request(app)
+            .delete('/api/v1/groups/name')
+            .then(res => {
+                expect(res.status).toBe(400)
             })
     })
 })
