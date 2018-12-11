@@ -83,7 +83,7 @@ describe('POST /exercises', () => {
             .post('/api/v1/exercises')
             .send(invalidData3)
             .then((res) => {
-                expect(res.status).toBe(403)
+                expect(res.status).toBe(400)
             })
     })
 
